@@ -1,15 +1,13 @@
 <template>
-  <!-- <GlobalProvider> -->
-  <SessionUserProvider>
+  <GlobalStateProvider>
     <Frame>
       <router-view></router-view>
     </Frame>
-  </SessionUserProvider>
-  <!-- </GlobalProvider> -->
+  </GlobalStateProvider>
 </template>
 
 <script setup>
-// import GlobalProvider from './components/GlobalProvider.vue';
-import SessionUserProvider from "./components/user/SessionUserProvider.vue";
+
+import GlobalStateProvider from "./components/GlobalStateContext.vue";
 import Frame from "./components/navbar/Frame.vue";
 </script>

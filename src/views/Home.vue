@@ -3,8 +3,7 @@
     <div class="row">
       <div class="row-height">
         <div
-          class="col-md-3 hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background"
-        >
+          class="col-md-3 hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
           <div class="row">
             <div class="col-md-12">
               <h4 />
@@ -19,47 +18,18 @@
                 <div class="panel-body">
                   <div class="row text-center">
                     <div class="col-md-12 d-flex justify-content-center" id="divSwirl">
-                      <!-- <transition
-                        :name="play ? 'fade' : ''"
-                        @before-enter="beforeEnter"
-                        @enter="enter"
-                        @after-enter="afterEnter"
-                      > -->
-                        <!-- <PhotoFrame v-if="isClient" :hidden="!isClient">
-                          <router-link :to="`/details/0/0/-?${rand}`">
-                            <img
-                              :src="`${apiAddress}/Handler/Index/PhotoID=0/Size=M?${rand}`"
-                              alt=""
-                              @load="playAnimation"
-                              style="
-                                border: 4px solid white;
-                                max-height: 100%;
-                                max-width: 100%;
-                                vertical-align: middle;
-                              "
-                            />
-                          </router-link>
-                        </PhotoFrame> -->
-                        <div
-                          v-if="isClient"
-                          class="spin-animation shadow"
-                          style="height: 190px; width: 8px; border: solid gray 1px; border-radius: 12px; margin-top: 10px;"
-                        ></div>
-                        <PhotoFrame v-else :hidden="true">
-                          <router-link to="/">
-                            <img
-                              src=""
-                              alt=""
-                              style="
-                                border: 4px solid white;
-                                max-height: 100%;
-                                max-width: 100%;
-                                vertical-align: middle;
-                              "
-                            />
-                          </router-link>
-                        </PhotoFrame>
-                      <!-- </transition> -->
+                      <div class="fade-in-animation">
+                        <div class="rotate-animation">
+                          <div class="scale-animation">
+                            <PhotoFrame>
+                              <a :href="imageUrl">
+                                <img :src="imageUrl" alt="Animated Image"
+                                  style="border: 4px solid white; max-height: 100%; max-width: 100%; vertical-align: middle;" />
+                              </a>
+                            </PhotoFrame>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="row text-center">
@@ -68,10 +38,7 @@
                     <div id="divDownload" style="min-height: 50px">
                       <p>
                         <a :href="`${apiAddress}/Handler/Download/0/M`">
-                          <img
-                            src="/assets/images/button-download.gif"
-                            alt="download photo"
-                          />
+                          <img src="/assets/images/button-download.gif" alt="download photo" />
                         </a>
                       </p>
                       <hr />
@@ -83,28 +50,17 @@
                 </div>
               </div>
               <div id="divContact" style="min-height: 90px">
-                <transition
-                  :name="play ? 'fade' : ''"
-                  @before-enter="beforeEnter"
-                  @enter="enter"
-                  @after-enter="afterEnter"
-                >
+                <transition :name="play ? 'fade' : ''" @before-enter="beforeEnter" @enter="enter"
+                  @after-enter="afterEnter">
                   <div>
                     <h4>Contact information</h4>
                     <p>
                       &nbsp;&nbsp;
-                      <span
-                        class="glyphicon glyphicon-phone-alt"
-                        style="color: gray"
-                      />
+                      <span class="glyphicon glyphicon-phone-alt" style="color: gray" />
                       &nbsp;010-123 456
                     </p>
                     <p>
-                      <img
-                        src="/assets/images/mail.png"
-                        alt="epost"
-                        class="img-responsive"
-                      />
+                      <img src="/assets/images/mail.png" alt="epost" class="img-responsive" />
                     </p>
                   </div>
                 </transition>
@@ -117,19 +73,10 @@
                     </div>
                     <div class="panel-body panel-height_small">
                       <div id="divWeather" style="vertical-align: textTop">
-                        <transition
-                          :name="play ? 'fade' : ''"
-                          @before-enter="beforeEnter"
-                          @enter="enter"
-                          @after-enter="afterEnter"
-                        >
-                          <a
-                            class="weatherwidget-io"
-                            href="https://forecast7.com/en/40d71n74d01/new-york/"
-                            data-label_1="NEW YORK"
-                            data-label_2="WEATHER"
-                            data-theme="original"
-                          >
+                        <transition :name="play ? 'fade' : ''" @before-enter="beforeEnter" @enter="enter"
+                          @after-enter="afterEnter">
+                          <a class="weatherwidget-io" href="https://forecast7.com/en/40d71n74d01/new-york/"
+                            data-label_1="NEW YORK" data-label_2="WEATHER" data-theme="original">
                             NEW YORK WEATHER
                           </a>
                         </transition>
@@ -240,7 +187,13 @@ export default {
       play: false,
       rand: Math.floor(Math.random() * 10000),
       apiAddress: "your-api-address-here", // Replace this with your actual API address
+      currentTicks: new Date().getTime(),
     };
+  },
+  computed: {
+    imageUrl() {
+      return `${this.apiAddress}/Handler/Index/PhotoID=0/Size=M?${this.currentTicks}`;
+    },
   },
   mounted() {
     this.isClient = typeof window !== "undefined";

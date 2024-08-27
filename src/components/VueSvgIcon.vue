@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: ['ReactSvgIcon'],
+  name: ['VueSvgIcon'],
 
   props: {
     text: {

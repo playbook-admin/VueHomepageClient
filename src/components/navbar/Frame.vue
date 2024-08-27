@@ -10,7 +10,7 @@
     >
       <div class="container">
         <a class="navbar-brand pb-5 mb-3" href="/">
-          <ReactSvgIcon text="VueHomepage" :icon="logo" iconClass="logo" />
+          <VueSvgIcon text="VueHomepage" :icon="logo" iconClass="logo" />
         </a>
         <button
           ref="elCollapseButton"
@@ -112,12 +112,12 @@
 </template>
 
 <script>
-import ReactSvgIcon from "../ReactSvgIcon.vue";
+import VueSvgIcon from "../VueSvgIcon.vue";
 
 export default {
   name: ["Frame"], // Make sure the name is in PascalCase
   components: {
-    ReactSvgIcon,
+    VueSvgIcon,
   },
   data() {
     return {
