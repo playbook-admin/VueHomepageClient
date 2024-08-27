@@ -3,9 +3,6 @@ import HomePage from "@/views/HomePage.vue";
 import LoginOutForm from "@/components/user/LoginOutForm.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import NotFound from "@/views/NotFound.vue";
-// import HomePage from "@/components/HomePage.vue";
-// import User from "@/components/User.vue";
-// import Albums from "@/components/Albums.vue";
 
 const routes = [
   {

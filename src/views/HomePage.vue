@@ -173,78 +173,45 @@
   </div>
 </template>
 
-<script>
-//import { useGlobalState } from './../components/GlobalStateContext.vue'; // Import functions
-const apiAddress = 'https://localhost:44397'  //= useGlobalState(); // Access global state
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useApiAddress } from './../components/useGlobalState';
 import PhotoFrame from "../photos/PhotoFrame.vue";
 
-export default {
-  name: "HomePage",
-  components: {
-    PhotoFrame,
-  },
-  data() {
-    return {
-      play: false,
-      apiAddress: "your-api-address-here", // Replace this with your actual API address
-      currentTicks: new Date().getTime(),
-    };
-  },
-  computed: {
-    imageUrl() {
-      return `${apiAddress}/Handler/Index/PhotoID=0/Size=M?${this.currentTicks}`;
-    },
-  },
-  mounted() {
-      this.play = true;
-      const script = document.createElement("script");
-      script.src = "https://weatherwidget.io/js/widget.min.js";
-      script.async = true;
-      document.body.appendChild(script);
-  },
-  methods: {
-    playAnimation() {
-      this.play = true;
-    },
-    beforeEnter(el) {
-      el.style.opacity = 0;
-    },
-    enter(el, done) {
-      setTimeout(() => {
-        el.style.opacity = 1;
-        done();
-      }, 3000);
-    },
-    afterEnter(el) {
-      console.log("el = ", el);
+const { apiAddress } = useApiAddress();
+const play = ref(false);
+const currentTicks = ref(new Date().getTime());
 
-      // Additional actions after animation, if needed
-    },
-  },
-};
+// Computed property for image URL
+const imageUrl = computed(() => `${apiAddress.value}/Handler/Index/PhotoID=0/Size=M?${currentTicks.value}`);
+
+// Lifecycle hook to handle mounting behavior
+onMounted(() => {
+  play.value = true;
+  const script = document.createElement("script");
+  script.src = "https://weatherwidget.io/js/widget.min.js";
+  script.async = true;
+  document.body.appendChild(script);
+});
+
+// // Methods for handling transitions and animations
+// function playAnimation() {
+//   play.value = true;
+// }
+
+function beforeEnter(el) {
+  el.style.opacity = 0;
+}
+
+function enter(el, done) {
+  setTimeout(() => {
+    el.style.opacity = 1;
+    done();
+  }, 3000);
+}
+
+function afterEnter(el) {
+  console.log("el = ", el);
+  // Additional actions after animation, if needed
+}
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 3s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(3600deg);
-  }
-  to {
-    transform: rotate(0deg); /* 360 degrees * 10 rotations */
-  }
-}
-
-.spin-animation {
-  animation: spin 2s linear;
-}
-
-</style>

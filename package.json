@@ -1,5 +1,5 @@
 {
-  "name": "react_homepage_vue",
+  "name": "vue_homepage",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,7 @@
     "bootstrap-css-only": "3.3.5",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
-    "vue-router": "^4.4.3",
+    "vue-router": "^4.0.13",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
