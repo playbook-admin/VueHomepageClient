@@ -174,6 +174,8 @@
 </template>
 
 <script>
+//import { useGlobalState } from './../components/GlobalStateContext.vue'; // Import functions
+const apiAddress = 'https://localhost:44397'  //= useGlobalState(); // Access global state
 import PhotoFrame from "../photos/PhotoFrame.vue";
 
 export default {
@@ -183,28 +185,22 @@ export default {
   },
   data() {
     return {
-      isClient: false,
       play: false,
-      rand: Math.floor(Math.random() * 10000),
       apiAddress: "your-api-address-here", // Replace this with your actual API address
       currentTicks: new Date().getTime(),
     };
   },
   computed: {
     imageUrl() {
-      return `${this.apiAddress}/Handler/Index/PhotoID=0/Size=M?${this.currentTicks}`;
+      return `${apiAddress}/Handler/Index/PhotoID=0/Size=M?${this.currentTicks}`;
     },
   },
   mounted() {
-    this.isClient = typeof window !== "undefined";
-    if (this.isClient) {
       this.play = true;
-
       const script = document.createElement("script");
       script.src = "https://weatherwidget.io/js/widget.min.js";
       script.async = true;
       document.body.appendChild(script);
-    }
   },
   methods: {
     playAnimation() {
