@@ -1,17 +1,17 @@
 import Albums from "@/views/Albums.vue";
-import Home from "@/views/Home.vue";
+import HomePage from "@/views/HomePage.vue";
 import LoginOutForm from "@/components/user/LoginOutForm.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import NotFound from "@/views/NotFound.vue";
-// import Home from "@/components/Home.vue";
+// import HomePage from "@/components/HomePage.vue";
 // import User from "@/components/User.vue";
 // import Albums from "@/components/Albums.vue";
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "HomePage",
+    component: HomePage,
   },
   {
     path: "/user",

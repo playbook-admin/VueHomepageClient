@@ -177,7 +177,7 @@
 import PhotoFrame from "../photos/PhotoFrame.vue";
 
 export default {
-  name: ["Home"],
+  name: "HomePage",
   components: {
     PhotoFrame,
   },
