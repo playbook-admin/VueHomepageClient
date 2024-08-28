@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import VueSvgIcon from "../VueSvgIcon.vue";
+import VueSvgIcon from "../common/VueSvgIcon.vue";
 
 export default {
   name: ["Frame"], // Make sure the name is in PascalCase
