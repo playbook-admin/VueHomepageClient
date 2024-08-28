@@ -1,6 +1,6 @@
 // useGlobalState.js
 import { inject, computed } from 'vue';
-import { GlobalStateKey, GlobalDispatchKey, SET_LOADING, SET_APIADDRESS } from './GlobalStateContext.js';
+import { GlobalStateKey, GlobalDispatchKey, SET_LOADING, SET_APIADDRESS, SET_IS_AUTHORIZED, SET_TOKEN } from './GlobalStateContext.js';
 
 // Custom hook to use global state
 export function useGlobalState() {
@@ -38,5 +38,25 @@ export function useApiAddress() {
   return {
     apiAddress: computed(() => state.apiAddress),
     setApiAddress: (address) => dispatch({ type: SET_APIADDRESS, payload: address }),
+  };
+}
+
+export function useIsAuthorized() {
+  const state = useGlobalState();
+  const dispatch = useGlobalDispatch();
+
+  return {
+    isAuthorized: computed(() => state.isAuthorized),
+    setIsAuthorized: (address) => dispatch({ type: SET_IS_AUTHORIZED, payload: address }),
+  };
+}
+
+export function useToken() {
+  const state = useGlobalState();
+  const dispatch = useGlobalDispatch();
+
+  return {
+    token: computed(() => state.token),
+    setToken: (address) => dispatch({ type: SET_TOKEN, payload: address }),
   };
 }
