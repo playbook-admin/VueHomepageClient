@@ -103,26 +103,29 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const photoIdParam = route.params.photoId;
+    const photoId = route.params.photoId;
     const albumId = route.params.albumId;
     const albumCaption = route.params.albumCaption;
     const { apiAddress } = useApiAddress();
-
+    alert(apiAddress.value);
+    alert("albumId: ", albumId);
     const photos = ref([]);
-    const photoId = ref(photoIdParam);
 
     const fetchPhotos = async (photoId) => {
-      if (photoId === 0) {
+      if (photoId == 0) {
         try {
-          const response = await apiClient.getHelper('api/details/random');
+          alert("fetchPhotos photoId: ", photoId+ ", albumId: " + albumId)
+          const response = await apiClient.getHelper(`${apiAddress.value}/api/details/random`);
           const randomPhotoId = parseInt(response);
+          alert("fetchPhotos photoId: ", photoId+ ", albumId: " + albumId + ", randomPhotoId: "+ randomPhotoId)
           fetchRandomPhotoDetails(randomPhotoId);
         } catch (error) {
           alert('Could not contact server ' + error);
         }
       } else {
         try {
-          const response = await apiClient.getHelper(`/api/details/${albumId}`);
+          alert("fetchPhotos photoId: ", photoId+ ", albumId: " + albumId)
+          const response = await apiClient.getHelper(`${apiAddress.value}/api/details/${albumId}`);
           photos.value = response;
           photoId.value = Number(photoId);
         } catch (error) {
@@ -133,17 +136,20 @@ export default {
 
     const fetchRandomPhotoDetails = async (photoId) => {
       try {
-        const response = await apiClient.getHelper('api/details/0');
+        alert("fetchRandomPhotoDetails photoId: ", photoId)
+        const response = await apiClient.getHelper(`${apiAddress.value}/api/details/0`);
         photos.value = response;
+        alert("fetchRandomPhotoDetails response: ", response)
         photoId.value = Number(photoId);
       } catch (error) {
         alert('Could not contact server ' + error);
       }
     };
 
-    fetchPhotos(photoIdParam);
+    fetchPhotos(photoId);
 
     const setDetails = (photoId) => {
+      alert("setDetails photoId: ", photoId+ ", albumId: " + albumCaption)
       router.push(`/details/${photoId}/${albumId}/${albumCaption}`);
       photoId.value = Number(photoId);
     };
