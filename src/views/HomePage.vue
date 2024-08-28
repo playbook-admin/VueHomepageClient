@@ -50,9 +50,7 @@
                 </div>
               </div>
               <div id="divContact" style="min-height: 90px">
-                <transition :name="play ? 'fade' : ''" @before-enter="beforeEnter" @enter="enter"
-                  @after-enter="afterEnter">
-                  <div>
+                <div class="fade-in-animation">
                     <h4>Contact information</h4>
                     <p>
                       &nbsp;&nbsp;
@@ -63,7 +61,6 @@
                       <img src="/assets/images/mail.png" alt="epost" class="img-responsive" />
                     </p>
                   </div>
-                </transition>
               </div>
               <div class="row">
                 <div class="col-md-12">
@@ -72,14 +69,11 @@
                       <h3 class="panel-title text-center">Today's weather</h3>
                     </div>
                     <div class="panel-body panel-height_small">
-                      <div id="divWeather" style="vertical-align: textTop">
-                        <transition :name="play ? 'fade' : ''" @before-enter="beforeEnter" @enter="enter"
-                          @after-enter="afterEnter">
+                      <div id="divWeather" class="opaque">
                           <a class="weatherwidget-io" href="https://forecast7.com/en/40d71n74d01/new-york/"
                             data-label_1="NEW YORK" data-label_2="WEATHER" data-theme="original">
                             NEW YORK WEATHER
                           </a>
-                        </transition>
                       </div>
                     </div>
                   </div>
@@ -179,7 +173,6 @@ import { useApiAddress } from './../components/useGlobalState';
 import PhotoFrame from "../photos/PhotoFrame.vue";
 
 const { apiAddress } = useApiAddress();
-const play = ref(false);
 const currentTicks = ref(new Date().getTime());
 
 // Computed property for image URL
@@ -187,31 +180,27 @@ const imageUrl = computed(() => `${apiAddress.value}/Handler/Index/PhotoID=0/Siz
 
 // Lifecycle hook to handle mounting behavior
 onMounted(() => {
-  play.value = true;
   const script = document.createElement("script");
   script.src = "https://weatherwidget.io/js/widget.min.js";
   script.async = true;
+
+    // Ensure the script has loaded before making the widget visible
+    script.onload = () => {
+    // Apply a small delay to ensure the widget is fully rendered
+    setTimeout(() => {
+      const divWeather = document.getElementById("divWeather");
+      if (divWeather) {
+        divWeather.classList.add("delayed-fade-in-animation");
+      }
+    }, 1000); // 1-second delay after script loading
+  };
+
+  // Handle script loading errors
+  script.onerror = () => {
+    console.error("Failed to load the weather widget script.");
+  };
+
   document.body.appendChild(script);
 });
 
-// // Methods for handling transitions and animations
-// function playAnimation() {
-//   play.value = true;
-// }
-
-function beforeEnter(el) {
-  el.style.opacity = 0;
-}
-
-function enter(el, done) {
-  setTimeout(() => {
-    el.style.opacity = 1;
-    done();
-  }, 3000);
-}
-
-function afterEnter(el) {
-  console.log("el = ", el);
-  // Additional actions after animation, if needed
-}
 </script>
