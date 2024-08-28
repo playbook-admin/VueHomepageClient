@@ -7,7 +7,7 @@ export const GlobalDispatchKey = Symbol('GlobalDispatch');
 
 const initialState = {
   loading: false,
-  apiAddress: 'https://localhost:44397', // Set API address here or use an environment variable
+  apiAddress: process.env.VUE_APP_API_ADDRESS || 'default value',
   isAuthorized: false,
   token: null, // To store JWT token
 };
