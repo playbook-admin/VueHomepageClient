@@ -22,10 +22,10 @@
                         <div class="rotate-animation">
                           <div class="scale-animation">
                             <PhotoFrame>
-                              <a :href="imageUrl">
+                              <router-link :to="detailsUrl">
                                 <img :src="imageUrl" alt="Animated Image"
                                   style="border: 4px solid white; max-height: 100%; max-width: 100%; vertical-align: middle;" />
-                              </a>
+                              </router-link>
                             </PhotoFrame>
                           </div>
                         </div>
@@ -172,11 +172,24 @@ import { ref, computed, onMounted } from 'vue';
 import { useApiAddress } from './../components/useGlobalState';
 import PhotoFrame from "../photos/PhotoFrame.vue";
 
+// Access API address from global state
 const { apiAddress } = useApiAddress();
 const currentTicks = ref(new Date().getTime());
 
-// Computed property for image URL
+// Compute the image URL dynamically
 const imageUrl = computed(() => `${apiAddress.value}/Handler/Index/PhotoID=0/Size=M?${currentTicks.value}`);
+
+// Define the details URL using a named route with parameters
+const detailsUrl = computed(() => {
+  return {
+    name: 'Details',
+    params: {
+      photoId: 0,
+      albumId: 0,
+      albumCaption: '-',
+    },
+  };
+});
 
 // Lifecycle hook to handle mounting behavior
 onMounted(() => {
@@ -184,8 +197,8 @@ onMounted(() => {
   script.src = "https://weatherwidget.io/js/widget.min.js";
   script.async = true;
 
-    // Ensure the script has loaded before making the widget visible
-    script.onload = () => {
+  // Ensure the script has loaded before making the widget visible
+  script.onload = () => {
     // Apply a small delay to ensure the widget is fully rendered
     setTimeout(() => {
       const divWeather = document.getElementById("divWeather");
@@ -204,3 +217,4 @@ onMounted(() => {
 });
 
 </script>
+

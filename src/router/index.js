@@ -1,4 +1,5 @@
 import AlbumsPage from "@/views/AlbumsPage.vue";
+import DetailsPage from "@/views/DetailsPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import LoginOutForm from "@/components/user/LoginOutForm.vue";
 import { createRouter, createWebHistory } from "vue-router";
@@ -19,6 +20,11 @@ const routes = [
     path: "/albums",
     name: "Albums",
     component: AlbumsPage,
+  },
+  {
+    path: "/details/:photoId/:albumId/:albumCaption",
+    name: "Details",
+    component: DetailsPage,
   },
   {
     path: "/:pathMatch(.*)*",
