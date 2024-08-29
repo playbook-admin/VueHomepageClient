@@ -9,7 +9,20 @@
             </div>
           </div>
         </div>
+      <div class="col-md-9 col-sm-9 col-xs-9 col-md-height">
+        <div class="row">
+          <div class="buttonbar buttonbar-top">  
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div> 
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+              <router-link to="/albums">
+                  <img id="FormView1_Image1" src="/assets/images/button-gallery.gif" style="border-width: 0px" alt="" />
+                </router-link>     
+                &nbsp;&nbsp;&nbsp;&nbsp;
 
+              </div>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
