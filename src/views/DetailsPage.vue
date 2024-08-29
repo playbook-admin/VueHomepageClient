@@ -1,22 +1,23 @@
 <template>
   <div class="container">
-    <b-row>
-      <b-col class="row-height">
-        <b-col md="3" class="hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
-          <b-row>
-            <b-col md="12">
+    <div class="row">
+      <div class="col row-height">
+        <div class="col-md-3 d-none d-md-block col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
+          <div class="row">
+            <div class="col-md-12">
               <h4>{{ albumCaption }}</h4>
-            </b-col>
-          </b-row>
-        </b-col>
-        <b-col md="9" sm="9" xs="9" class="col-md-height">
-          <b-row>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-xs-9 col-md-height">
+          <div class="row">
             <div class="buttonbar buttonbar-top">
-              <b-col lg="2" md="2" sm="2" xs="2" />
-              <b-col lg="3" md="3" sm="3" xs="3">
+              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <router-link to="/albums">
                   <img id="FormView1_Image1" src="/assets/images/button-gallery.gif" style="border-width: 0px" alt="" />
-                </router-link> &nbsp;&nbsp;&nbsp;&nbsp;
+                </router-link>
+                &nbsp;&nbsp;&nbsp;&nbsp;
                 <router-link @click="setDetails(first.value)">
                   <img src="/assets/images/button-first.gif" style="border-width: 0px" alt="" />
                 </router-link>
@@ -29,13 +30,13 @@
                 <router-link @click="setDetails(last.value)">
                   <img src="/assets/images/button-last.gif" style="border-width: 0px" alt="" />
                 </router-link>
-              </b-col>
-              <b-col lg="7" md="7" sm="7" xs="7" />
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"></div>
             </div>
-          </b-row>
-          <b-row>
-            <b-col lg="12" md="12" sm="12" xs="12">
-              <table class="view" cellspacing="0" cellpadding="0" id="FormView1" style="border-collapse: collapse; border-style: None; border-width: 0px">
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <table class="view" cellspacing="0" cellpadding="0" id="FormView1" style="border-collapse: collapse; border-style: none; border-width: 0px">
                 <tbody>
                   <tr>
                     <td>
@@ -49,24 +50,25 @@
                         </a>
                       </p>
                     </td>
-                    <td style="width: 500px" />
+                    <td style="width: 500px"></td>
                   </tr>
                 </tbody>
               </table>
-            </b-col>
-          </b-row>
-          <b-row>
+            </div>
+          </div>
+          <div class="row">
             <div class="buttonbar buttonbar-bottom">
-              <b-col md="4" sm="3" xs="2">
+              <div class="col-md-4 col-sm-3 col-xs-2">
                 <div v-for="(photo, index) in photos" :key="photo.photoID" style="display: inline">
                   <router-link v-if="index + 1 !== page" @click="setDetails(photo.photoID)">{{ index + 1 }}</router-link>
                   <span v-else>{{ index + 1 }}</span>
                 </div>
-              </b-col>
-              <b-col md="3" sm="3" xs="3">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-3">
                 <router-link to="/albums">
                   <img id="FormView1_Image2" src="/assets/images/button-gallery.gif" style="border-width: 0px" alt="" />
-                </router-link> &nbsp;&nbsp;&nbsp;&nbsp;
+                </router-link>
+                &nbsp;&nbsp;&nbsp;&nbsp;
                 <router-link @click="setDetails(first.value)">
                   <img src="/assets/images/button-first.gif" style="border-width: 0px" alt="" />
                 </router-link>
@@ -79,15 +81,16 @@
                 <router-link @click="setDetails(last.value)">
                   <img src="/assets/images/button-last.gif" style="border-width: 0px" alt="" />
                 </router-link>
-              </b-col>
-              <b-col md="5" sm="6" xs="7" />
+              </div>
+              <div class="col-md-5 col-sm-6 col-xs-7"></div>
             </div>
-          </b-row>
-        </b-col>
-      </b-col>
-    </b-row>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
 
 <script>
 import PhotoFrame from '../photos/PhotoFrame.vue';
