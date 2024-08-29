@@ -1,5 +1,5 @@
 <template>
-  <div class="container container-fluid">
+  <div class="container">
     <b-row>
       <b-col class="row-height">
         <b-col md="3" class="hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import PhotoFrame from '../photos/PhotoFrame.vue';
+//import PhotoFrame from '../photos/PhotoFrame.vue';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import * as apiClient from '../helpers/ApiHelpers';
@@ -99,7 +99,7 @@ import { useApiAddress } from '../components/useGlobalState';
 export default {
   name: "DetailsPage", // Corrected this line
   components: {
-    PhotoFrame
+    //PhotoFrame
   },
   setup() {
     const route = useRoute();
@@ -122,33 +122,23 @@ export default {
         await fetchPhotosByAlbumId(route.params.albumId);
       }
 
-      alert("getPage.value: " + getPage.value)
       first = computed(() => photos.value[0]?.photoID);
-      alert("first: " + first.value)
       last = computed(() => photos.value[photos.value.length - 1]?.photoID);
-      alert("last: " + last.value)
       prev = computed(() => (page > 1 ? photos.value[page - 2].photoID : first.value));
-      alert("prev: " + prev.value)
       next = computed(() => (page < photos.value.length ? photos.value[page].photoID : last.value));
-      alert("next: " + next.value)  
     };
 
     onMounted(() => {
-      alert("onMounted initializedAsync")
       initializedAsync();
     });
 
     const fetchRandomPhotoDetails = async () => {
       try {
-        alert("fetchRandomPhotoDetails")
         const ph = await apiClient.getHelper(`${apiAddress.value}/api/details/random`);
         photoId.value = ph;
-        alert(ph)
         const al = await apiClient.getHelper(`${apiAddress.value}/api/details/albumid/${ph}`);
-        alert(al)
         albumId.value = al;
         const response = await apiClient.getHelper(`${apiAddress.value}/api/details/${al}`);
-        alert(JSON.stringify(response))
         photos.value = response;
       } catch (error) {
         alert('Could not contact server ' + JSON.stringify(error));
@@ -165,7 +155,6 @@ export default {
     };
 
     const setDetails = (newPhotoId) => {
-      alert("setDetails "+newPhotoId)
       router.push(`/details/${newPhotoId}/${albumId.value}/${albumCaption}`);
       photoId.value = Number(newPhotoId);
     };
