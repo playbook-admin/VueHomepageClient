@@ -17,16 +17,16 @@
                 <router-link to="/albums">
                   <img id="FormView1_Image1" src="/assets/images/button-gallery.gif" style="border-width: 0px" alt="" />
                 </router-link> &nbsp;&nbsp;&nbsp;&nbsp;
-                <router-link @click="setDetails(first)">
+                <router-link @click="setDetails(first.value)">
                   <img src="/assets/images/button-first.gif" style="border-width: 0px" alt="" />
                 </router-link>
-                <router-link @click="setDetails(prev)">
+                <router-link @click="setDetails(prev.value)">
                   <img src="/assets/images/button-prev.gif" style="border-width: 0px" alt="" />
                 </router-link>
-                <router-link @click="setDetails(next)">
+                <router-link @click="setDetails(next.value)">
                   <img src="/assets/images/button-next.gif" style="border-width: 0px" alt="" />
                 </router-link>
-                <router-link @click="setDetails(last)">
+                <router-link @click="setDetails(last.value)">
                   <img src="/assets/images/button-last.gif" style="border-width: 0px" alt="" />
                 </router-link>
               </b-col>
@@ -41,10 +41,10 @@
                     <td>
                       <p>{{ photos[page > 0 ? page - 1 : 0].caption }}</p>
                       <photo-frame>
-                        <img :src="`${apiAddress}/Handler/Index/PhotoID=${photoId}/Size=L`" class="photo_198" style="border: 4px solid white; object-fit: contain; min-height: 500px; max-height: 500px; top: 50%; bottom: 50%" alt="PhotoID {{ photoId }}" />
+                        <img :src="`${apiAddress.value}/Handler/Index/PhotoID=${photoId.value}/Size=L`" class="photo_198" style="border: 4px solid white; object-fit: contain; min-height: 500px; max-height: 500px; top: 50%; bottom: 50%" alt="PhotoID {{ photoId.value }}" />
                       </photo-frame>
                       <p>
-                        <a :href="`${apiAddress}/Handler/Download/${photoId}/Size=L`">
+                        <a :href="`${apiAddress.value}/Handler/Download/${photoId.value}/Size=L`">
                           <img src="/assets/images/button-download.gif" alt="download this photo" />
                         </a>
                       </p>
@@ -67,16 +67,16 @@
                 <router-link to="/albums">
                   <img id="FormView1_Image2" src="/assets/images/button-gallery.gif" style="border-width: 0px" alt="" />
                 </router-link> &nbsp;&nbsp;&nbsp;&nbsp;
-                <router-link @click="setDetails(first)">
+                <router-link @click="setDetails(first.value)">
                   <img src="/assets/images/button-first.gif" style="border-width: 0px" alt="" />
                 </router-link>
-                <router-link @click="setDetails(prev)">
+                <router-link @click="setDetails(prev.value)">
                   <img src="/assets/images/button-prev.gif" style="border-width: 0px" alt="" />
                 </router-link>
-                <router-link @click="setDetails(next)">
+                <router-link @click="setDetails(next.value)">
                   <img src="/assets/images/button-next.gif" style="border-width: 0px" alt="" />
                 </router-link>
-                <router-link @click="setDetails(last)">
+                <router-link @click="setDetails(last.value)">
                   <img src="/assets/images/button-last.gif" style="border-width: 0px" alt="" />
                 </router-link>
               </b-col>
@@ -90,96 +90,106 @@
 </template>
 
 <script>
-import PhotoFrame from '../photos/PhotoFrame.vue';
-import { ref, computed } from 'vue';
+//import PhotoFrame from '../photos/PhotoFrame.vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import * as apiClient from '../helpers/ApiHelpers';
 import { useApiAddress } from '../components/useGlobalState';
 
 export default {
+  name: "DetailsPage", // Corrected this line
   components: {
-    PhotoFrame
+    //PhotoFrame
   },
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const photoId = route.params.photoId;
-    const albumId = route.params.albumId;
-    const albumCaption = route.params.albumCaption;
     const { apiAddress } = useApiAddress();
-    alert(apiAddress.value);
-    alert("albumId: ", albumId);
+
     const photos = ref([]);
+    let first = ref();
+    let last = ref();
+    let prev = ref();
+    let next = ref();
+    const photoId = ref(parseInt(route.params.photoId));
+    const albumId = ref(parseInt(route.params.albumId));
+    const albumCaption = route.params.albumCaption;
 
-    const fetchPhotos = async (photoId) => {
-      if (photoId == 0) {
-        try {
-          alert("fetchPhotos photoId: ", photoId+ ", albumId: " + albumId)
-          const response = await apiClient.getHelper(`${apiAddress.value}/api/details/random`);
-          const randomPhotoId = parseInt(response);
-          alert("fetchPhotos photoId: ", photoId+ ", albumId: " + albumId + ", randomPhotoId: "+ randomPhotoId)
-          fetchRandomPhotoDetails(randomPhotoId);
-        } catch (error) {
-          alert('Could not contact server ' + error);
-        }
+   const initializedAsync = async () => {
+      if (albumId.value === 0) {
+        await fetchRandomPhotoDetails();
       } else {
-        try {
-          alert("fetchPhotos photoId: ", photoId+ ", albumId: " + albumId)
-          const response = await apiClient.getHelper(`${apiAddress.value}/api/details/${albumId}`);
-          photos.value = response;
-          photoId.value = Number(photoId);
-        } catch (error) {
-          alert('Could not contact server ' + error);
-        }
+        await fetchPhotosByAlbumId(route.params.albumId);
       }
+
+      alert("getPage.value: " + getPage.value)
+      first = computed(() => photos.value[0]?.photoID);
+      alert("first: " + first.value)
+      last = computed(() => photos.value[photos.value.length - 1]?.photoID);
+      alert("last: " + last.value)
+      prev = computed(() => (page > 1 ? photos.value[page - 2].photoID : first.value));
+      alert("prev: " + prev.value)
+      next = computed(() => (page < photos.value.length ? photos.value[page].photoID : last.value));
+      alert("next: " + next.value)  
     };
 
-    const fetchRandomPhotoDetails = async (photoId) => {
+    onMounted(() => {
+      alert("onMounted initializedAsync")
+      initializedAsync();
+    });
+
+    const fetchRandomPhotoDetails = async () => {
       try {
-        alert("fetchRandomPhotoDetails photoId: ", photoId)
-        const response = await apiClient.getHelper(`${apiAddress.value}/api/details/0`);
+        alert("fetchRandomPhotoDetails")
+        const ph = await apiClient.getHelper(`${apiAddress.value}/api/details/random`);
+        photoId.value = ph;
+        alert(ph)
+        const al = await apiClient.getHelper(`${apiAddress.value}/api/details/albumid/${ph}`);
+        alert(al)
+        albumId.value = al;
+        const response = await apiClient.getHelper(`${apiAddress.value}/api/details/${al}`);
+        alert(JSON.stringify(response))
         photos.value = response;
-        alert("fetchRandomPhotoDetails response: ", response)
-        photoId.value = Number(photoId);
       } catch (error) {
-        alert('Could not contact server ' + error);
+        alert('Could not contact server ' + JSON.stringify(error));
       }
     };
 
-    fetchPhotos(photoId);
-
-    const setDetails = (photoId) => {
-      alert("setDetails photoId: ", photoId+ ", albumId: " + albumCaption)
-      router.push(`/details/${photoId}/${albumId}/${albumCaption}`);
-      photoId.value = Number(photoId);
+    const fetchPhotosByAlbumId = async (albumId) => {
+      try {
+        const response = await apiClient.getHelper(`${apiAddress.value}/api/details/${albumId}`);
+        photos.value = response;
+      } catch (error) {
+        alert('Could not contact server ' + JSON.stringify(error));
+      }
     };
 
-    const getPage = (pid) => {
-      const photo = photos.value.find(p => p.photoID === pid);
+    const setDetails = (newPhotoId) => {
+      alert("setDetails "+newPhotoId)
+      router.push(`/details/${newPhotoId}/${albumId.value}/${albumCaption}`);
+      photoId.value = Number(newPhotoId);
+    };
+
+    const getPage = computed(() => {
+      const photo = photos.value.find((p) => p.photoID === photoId.value);
       return photo ? photos.value.indexOf(photo) + 1 : 0;
-    };
+    });
 
-    const page = computed(() => getPage(photoId.value));
-    const first = computed(() => photos.value[0]?.photoID);
-    const last = computed(() => photos.value[photos.value.length - 1]?.photoID);
-    const prev = computed(() => page.value > 1 ? photos.value[page.value - 2]?.photoID : first.value);
-    const next = computed(() => page.value < photos.value.length ? photos.value[page.value]?.photoID : last.value);
+    const page = getPage.value;
 
     return {
       photos,
-      photoId,
-      albumCaption,
       setDetails,
       page,
       first,
       last,
       prev,
       next,
-      apiAddress
     };
   }
 };
 </script>
+
 
 <style scoped>
 /* Add your styles here */
