@@ -18,7 +18,9 @@
                   <img id="FormView1_Image1" src="/assets/images/button-gallery.gif" style="border-width: 0px" alt="" />
                 </router-link>     
                 &nbsp;&nbsp;&nbsp;&nbsp;
-
+                <router-link :to="getDetailsUrl(first)">
+                  <img src="/assets/images/button-first.gif" style="border-width: 0px" alt="" />
+                </router-link>
               </div>
           </div>
         </div>
@@ -32,7 +34,7 @@
 <script>
 //import PhotoFrame from '../photos/PhotoFrame.vue';
 import { ref, onMounted, computed, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import * as apiClient from '../helpers/ApiHelpers';
 import { useApiAddress } from '../components/useGlobalState';
 
@@ -40,7 +42,6 @@ export default {
   name: "DetailsPage",
   setup() {
     const route = useRoute();
-    const router = useRouter();
     const { apiAddress } = useApiAddress();
 
     const photos = ref([]);
@@ -56,6 +57,10 @@ export default {
     });
     const prev = computed(() => (page.value > 1 ? photos.value[page.value - 2].photoID : first.value));
     const next = computed(() => (page.value < photos.value.length ? photos.value[page.value].photoID : last.value));
+    
+    const getDetailsUrl = (id) => {
+      return `/details/${id}/${albumId.value}/${albumCaption.value}`;
+    };
 
     const initializedAsync = async () => {
       if (albumId.value === 0) {
@@ -91,18 +96,13 @@ export default {
       }
     };
 
-    const setDetails = (newPhotoId) => {
-      router.push(`/details/${newPhotoId}/${albumId.value}/${albumCaption.value}`);
-      photoId.value = Number(newPhotoId);
-    };
-
     watch(() => route.params.albumCaption, (newAlbumCaption) => {
       albumCaption.value = newAlbumCaption;
     });
 
     return {
       photos,
-      setDetails,
+      getDetailsUrl,
       page,
       first,
       last,
