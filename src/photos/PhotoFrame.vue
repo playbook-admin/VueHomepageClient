@@ -32,6 +32,7 @@
 
 <script>
 export default {
+  name: "PhotoFrame", // Corrected this line
   props: {
     hidden: {
       type: Boolean,

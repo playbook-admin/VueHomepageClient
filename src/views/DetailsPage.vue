@@ -90,16 +90,16 @@
 </template>
 
 <script>
-//import PhotoFrame from '../photos/PhotoFrame.vue';
+import PhotoFrame from '../photos/PhotoFrame.vue';
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import * as apiClient from '../helpers/ApiHelpers';
 import { useApiAddress } from '../components/useGlobalState';
 
 export default {
-  name: "DetailsPage", // Corrected this line
+  name: "DetailsPage",
   components: {
-    //PhotoFrame
+    PhotoFrame
   },
   setup() {
     const route = useRoute();
