@@ -1,5 +1,7 @@
 // main.js
 import { createApp } from 'vue';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router'
 import '../public/assets/css/app.css'
@@ -9,6 +11,14 @@ import 'bootstrap-css-only/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../public/assets/css/animation.css'
 
+// Importera de specifika ikoner du vill använda
+import { faSpinner, faSave, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+// Lägg till ikonerna i biblioteket
+library.add(faSpinner, faSave, faTrash);
+
+// Registrera FontAwesome-komponenten globalt
 const app = createApp(App);
+app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(router); 
 app.mount('#app');
