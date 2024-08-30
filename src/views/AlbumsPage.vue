@@ -45,100 +45,88 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import AlbumFrame from '../components/albums/AlbumFrame.vue';
+import { postHelper, putHelper, deleteHelper } from '@/helpers/ApiHelpers'; // Importera hjälpfunktioner
 
 export default {
-  name: 'AlbumsPage',
+  name: 'AlbumItem',
   components: {
-    FontAwesomeIcon,
-    AlbumFrame,
+    FontAwesomeIcon
+  },
+  props: {
+    albumID: Number,
+    photoCount: Number,
+    caption: {
+      type: String,
+      default: ''
+    },
+    isPublic: Boolean,
+    itemCount: Number,
+    isAuthorized: Boolean
   },
   data() {
     return {
-      albums: [],
+      apiAddress: this.$globalState.apiAddress,
+      isAddNewAlbum: false,
+      isUpdateOldAlbum: false,
+      isDisabledForAddAndUpdate: false,
+      isDisabledForDelete: false,
+      localCaption: this.caption // Lokal kopia av prop-värdet
     };
   },
-  computed: {
-    ...mapState({
-      isAuthorized: state => state.sessionUserContext.isAuthorized,
-      loading: state => state.globalStateContext.loading,
-    }),
-    opacity() {
-      return this.loading ? '1' : '0';
-    },
+  watch: {
+    albumID: 'updateStates',
+    isAuthorized: 'updateStates',
+    caption: 'updateStates',
+    localCaption: 'onCaptionChanged' // Lägg till en watch för att hantera ändringar
   },
   methods: {
-    async getAlbumsWithPhotoCount(url) {
-      this.$store.commit('setLoading', true);
+    updateStates() {
+      this.isAddNewAlbum = this.albumID === 0;
+      this.isUpdateOldAlbum = this.isAuthorized && !this.isAddNewAlbum;
+      this.isDisabledForAddAndUpdate = !this.localCaption.trim();
+      this.isDisabledForDelete = this.photoCount > 0;
+    },
+    onCaptionChanged(newCaption) {
+      this.isDisabledForAddAndUpdate = !newCaption.trim();
+    },
+    async handleUpdate(albumID, newCaption) {
       try {
-        const response = await this.$http.get(url);
-        this.albums = response.data || [];
-
-        if (this.isAuthorized && this.noEmptyAlbumsExist(this.albums)) {
-          this.albums.push({ AlbumID: 0, PhotoCount: 0, Caption: '', IsPublic: true });
-        }
-      } catch (ex) {
-        console.error('Could not contact server: ', ex.message);
+        this.$globalState.setLoading(true);
+        await putHelper(`${this.apiAddress}/albums/${albumID}`, { caption: newCaption }, this.$globalState.authToken);
+        this.$emit('update', { albumID, newCaption });
+      } catch (error) {
+        console.error('Update failed:', error);
       } finally {
-        this.$store.commit('setLoading', false);
+        this.$globalState.setLoading(false);
       }
     },
-    noEmptyAlbumsExist(albums) {
-      return albums.every(album => album.PhotoCount > 0);
-    },
-    async handleDelete(albumId) {
-      this.$store.commit('setLoading', true);
+    async handleDelete(albumID) {
       try {
-        await this.$http.delete(`/api/albums/delete/${albumId}`);
-        await this.getAlbumsWithPhotoCount('/api/albums');
-      } catch (ex) {
-        console.error('Error deleting album: ', ex.message);
+        this.$globalState.setLoading(true);
+        await deleteHelper(`${this.apiAddress}/albums/${albumID}`, this.$globalState.authToken);
+        this.$emit('delete', albumID);
+      } catch (error) {
+        console.error('Delete failed:', error);
       } finally {
-        this.$store.commit('setLoading', false);
-      }
-    },
-    async handleUpdate(albumId, newCaption) {
-      this.$store.commit('setLoading', true);
-      try {
-        const content = { newCaption };
-        await this.$http.put(`/api/albums/update/${albumId}`, content);
-        await this.getAlbumsWithPhotoCount('/api/albums');
-      } catch (ex) {
-        console.error('Error updating album: ', ex.message);
-      } finally {
-        this.$store.commit('setLoading', false);
+        this.$globalState.setLoading(false);
       }
     },
     async handleAdd(newCaption) {
-      this.$store.commit('setLoading', true);
       try {
-        const content = { newCaption };
-        await this.$http.post('/api/albums/add', content);
-        await this.getAlbumsWithPhotoCount('/api/albums');
-      } catch (ex) {
-        console.error('Error adding album: ', ex.message);
+        this.$globalState.setLoading(true);
+        await postHelper(`${this.apiAddress}/albums`, { caption: newCaption }, this.$globalState.authToken);
+        this.$emit('add', newCaption);
+      } catch (error) {
+        console.error('Add failed:', error);
       } finally {
-        this.$store.commit('setLoading', false);
+        this.$globalState.setLoading(false);
       }
-    },
-    getAlbumRows() {
-      const rows = [];
-      for (let i = 0; i < this.albums.length; i += 2) {
-        const row = [this.albums[i]];
-        if (i + 1 < this.albums.length) {
-          row.push(this.albums[i + 1]);
-        }
-        rows.push(row);
-      }
-      return rows;
-    },
+    }
   },
-  async mounted() {
-    this.$router.push('/albums');
-    await this.getAlbumsWithPhotoCount('/api/albums');
-  },
+  mounted() {
+    this.updateStates();
+  }
 };
 </script>
 
