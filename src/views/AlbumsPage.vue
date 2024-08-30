@@ -46,12 +46,14 @@
 
 <script>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import AlbumFrame from '../components/albums/AlbumFrame.vue';
 import { postHelper, putHelper, deleteHelper } from '@/helpers/ApiHelpers'; // Importera hjälpfunktioner
 
 export default {
   name: 'AlbumItem',
   components: {
-    FontAwesomeIcon
+    FontAwesomeIcon,
+    AlbumFrame
   },
   props: {
     albumID: Number,
