@@ -144,10 +144,6 @@ export default {
       albumCaption.value = newAlbumCaption;
     });
 
-    watch(photos, (newPhotos) => {
-      console.log('Photos updated:', JSON.stringify(newPhotos));
-    });
-
     return {
       photos,
       getDetailsUrl,
