@@ -63,12 +63,12 @@
           </div>
           <div class="row">
             <div class="buttonbar buttonbar-bottom">
-              <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                 <div v-for="(photo, index) in photos" :key="photo.photoID" style="display: inline;">
                   <template v-if="index + 1 !== page">
-                    <!-- <router-link :to="getDetailsUrl(photo.photoID)" @click="setDetails($event, photo.photoID)">
+                    <router-link :to="getDetailsUrl(photo.photoID)" @click="setDetails($event, photo.photoID)">
                       {{ index + 1 }}
-                    </router-link> -->
+                    </router-link>
                   </template>
                   <template v-else>
                     <span>{{ index + 1 }}</span>
