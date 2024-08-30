@@ -41,12 +41,7 @@
                 <tbody>
                   <tr>
                     <td>
-                      <p v-if="photos && photos.length > 0">
-                        {{ photos[page > 0 ? page - 1 : 0]?.caption || 'No caption available' }}
-    </p>
-    <p v-else>
-      No caption available.
-    </p>
+                      <p>{{ captionToShow }}</p>
                       <!-- <photo-frame>
                         <img :src="`${apiAddress.value}/Handler/Index/PhotoID=${photoId.value}/Size=L`" class="photo_198" style="border: 4px solid white; object-fit: contain; min-height: 500px; max-height: 500px; top: 50%; bottom: 50%" alt="PhotoID {{ photoId.value }}" />
                       </photo-frame>
@@ -78,11 +73,8 @@ import { useApiAddress } from '../components/useGlobalState';
 
 export default {
   name: "DetailsPage",
-  mounted() {
-    console.log('Component mounted');
-  },
-  updated() {
-    console.log('Component updated');
+  components: {
+    //PhotoFrame
   },
   setup() {
     const route = useRoute();
@@ -93,6 +85,11 @@ export default {
     const albumId = ref(parseInt(route.params.albumId));
     const albumCaption = ref(route.params.albumCaption);
 
+    const captionToShow = computed(() => {
+      const index = page.value > 0 ? page.value - 1 : 0;
+      const photo = photos.value[index];
+      return photo ? photo.caption || 'No caption available' : 'No caption available';
+    });
     
     const first = computed(() => photos.value[0]?.photoID);
     const last = computed(() => photos.value[photos.value.length - 1]?.photoID);
@@ -160,8 +157,7 @@ export default {
       prev,
       next,
       albumCaption,
-      fetchRandomPhotoDetails,
-      fetchPhotosByAlbumId
+      captionToShow
     };
   }
 };
