@@ -18,11 +18,12 @@
               style="text-align:center"
               :style="{ opacity: opacity }"
             />
-            <!-- <table class="album-frame" style="font-size: 10px; font-family: verdana, arial, helvetica, sans-serif;">
+            <table class="album-frame" style="font-size: 10px; font-family: verdana, arial, helvetica, sans-serif;">
               <tbody>
                 <tr v-for="row in getAlbumRows()" :key="row[0].AlbumID">
                   <td v-for="(album, index) in row" :key="album.AlbumID">
-                    <AlbumFrame
+                    {{ index }}
+                    <!-- <AlbumFrame
                       :AlbumID="album.AlbumID"
                       :PhotoCount="album.PhotoCount"
                       :Caption="album.Caption"
@@ -32,11 +33,11 @@
                       @delete="handleDelete(album.AlbumID)"
                       @update="(newCaption) => handleUpdate(album.AlbumID, newCaption)"
                       @add="handleAdd"
-                    />
+                    /> -->
                   </td>
                 </tr>
               </tbody>
-            </table> -->
+            </table>
           </div>
         </div>
       </div>
@@ -86,7 +87,7 @@ export default {
       try {
         setLoading(true);
         const response = await apiClient.getHelper(`${apiAddress.value}/api/albums`);
-        albums.value = response.data; // Adjust according to the API response
+        albums.value = response; // Adjust according to the API response
       } catch (error) {
         console.error('Failed to fetch albums:', error);
       } finally {
@@ -136,6 +137,7 @@ export default {
       for (let i = 0; i < albums.value.length; i += 2) {
         rows.push(albums.value.slice(i, i + 2));
       }
+
       return rows;
     };
 
