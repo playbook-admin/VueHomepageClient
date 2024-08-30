@@ -62,7 +62,29 @@
               </table>
             </div>
           </div>
-          
+          <div class="row">
+            <div class="buttonbar buttonbar-bottom">
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <router-link to="/albums">
+                  <img id="FormView1_Image1" src="/assets/images/button-gallery.gif" style="border-width: 0px" alt="" />
+                </router-link>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <router-link :to="getDetailsUrl(first)">
+                  <img src="/assets/images/button-first.gif" style="border-width: 0px" alt="" />
+                </router-link>
+                <router-link :to="getDetailsUrl(prev)">
+                  <img src="/assets/images/button-prev.gif" style="border-width: 0px" alt="" />
+                </router-link>
+                <router-link :to="getDetailsUrl(next)">
+                  <img src="/assets/images/button-next.gif" style="border-width: 0px" alt="" />
+                </router-link>
+                <router-link :to="getDetailsUrl(last)">
+                  <img src="/assets/images/button-last.gif" style="border-width: 0px" alt="" />
+                </router-link>
+              </div>            
+            
+            </div>
+          </div>
         </div>
       </div>
     </div>
