@@ -42,14 +42,19 @@
                   <tr>
                     <td>
                       <p>{{ captionToShow }}</p>
-                      <!-- <photo-frame>
-                        <img :src="`${apiAddress.value}/Handler/Index/PhotoID=${photoId.value}/Size=L`" class="photo_198" style="border: 4px solid white; object-fit: contain; min-height: 500px; max-height: 500px; top: 50%; bottom: 50%" alt="PhotoID {{ photoId.value }}" />
+                      <photo-frame>
+                        <img 
+                          :src="`${apiAddress}/Handler/Index/PhotoID=${photoId}/Size=L`" 
+                          class="photo_198" 
+                          style="border: 4px solid white; object-fit: contain; min-height: 500px; max-height: 500px; top: 50%; bottom: 50%" 
+                          alt="PhotoID" 
+                      />
                       </photo-frame>
                       <p>
-                        <a :href="`${apiAddress.value}/Handler/Download/${photoId.value}/Size=L`">
+                        <a :href="`${apiAddress}/Handler/Download/${photoId}/Size=L`">
                           <img src="/assets/images/button-download.gif" alt="download this photo" />
                         </a>
-                      </p> -->
+                      </p>
                     </td>
                     <td style="width: 500px"></td>
                   </tr>
@@ -57,6 +62,7 @@
               </table>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
@@ -65,7 +71,7 @@
 
 
 <script>
-//import PhotoFrame from '../photos/PhotoFrame.vue';
+import PhotoFrame from '../photos/PhotoFrame.vue';
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import * as apiClient from '../helpers/ApiHelpers';
@@ -74,7 +80,7 @@ import { useApiAddress } from '../components/useGlobalState';
 export default {
   name: "DetailsPage",
   components: {
-    //PhotoFrame
+    PhotoFrame
   },
   setup() {
     const route = useRoute();
@@ -153,7 +159,9 @@ export default {
       prev,
       next,
       albumCaption,
-      captionToShow
+      captionToShow,
+      apiAddress,
+      photoId
     };
   }
 };
