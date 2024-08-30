@@ -93,7 +93,7 @@
 <script>
 import PhotoFrame from '../photos/PhotoFrame.vue';
 import { ref, onMounted, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import * as apiClient from '../helpers/ApiHelpers';
 import { useApiAddress } from '../components/useGlobalState';
 
@@ -104,6 +104,7 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const { apiAddress } = useApiAddress();
 
     const photos = ref([]);
@@ -128,6 +129,15 @@ export default {
     
     const getDetailsUrl = (id) => {
       return `/details/${id}/${albumId.value}/${albumCaption.value}`;
+    };
+
+    const setDetails = (event, id) => {
+      event.preventDefault(); // Prevent the default link behavior
+      if (typeof id === 'number' && !isNaN(id)) {
+        router.push(getDetailsUrl(id));
+      } else {
+        console.error('Invalid photoID:', id);
+      }
     };
 
     const initializedAsync = async () => {
@@ -178,6 +188,7 @@ export default {
     return {
       photos,
       getDetailsUrl,
+      setDetails,
       page,
       first,
       last,
