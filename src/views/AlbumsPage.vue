@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="col-md-9 col-md-height">
-          <!-- <div class="row">
+          <div class="row">
             <font-awesome-icon 
               icon="spinner" 
               size="2x" 
@@ -18,7 +18,7 @@
               style="text-align:center"
               :style="{ opacity: opacity }"
             />
-            <table class="album-frame" style="font-size: 10px; font-family: verdana, arial, helvetica, sans-serif;">
+            <!-- <table class="album-frame" style="font-size: 10px; font-family: verdana, arial, helvetica, sans-serif;">
               <tbody>
                 <tr v-for="row in getAlbumRows()" :key="row[0].AlbumID">
                   <td v-for="(album, index) in row" :key="album.AlbumID">
@@ -36,8 +36,8 @@
                   </td>
                 </tr>
               </tbody>
-            </table>
-          </div> -->
+            </table> -->
+          </div>
         </div>
       </div>
     </div>
@@ -49,11 +49,13 @@ import { ref, computed, onMounted } from 'vue';
 import * as apiClient from '../helpers/ApiHelpers';
 import { useApiAddress, useIsAuthorized, useLoading } from '../components/useGlobalState';
 //import AlbumFrame from '../components/albums/AlbumFrame.vue'; // Ensure this component is correctly imported
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
   name: 'AlbumsPage',
   components: {
-    //AlbumFrame // Ensure this component is correctly registered
+    //AlbumFrame,
+    FontAwesomeIcon
   },
   setup() {
     // Using hooks
