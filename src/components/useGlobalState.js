@@ -47,7 +47,7 @@ export function useIsAuthorized() {
 
   return {
     isAuthorized: computed(() => state.isAuthorized),
-    setIsAuthorized: (address) => dispatch({ type: SET_IS_AUTHORIZED, payload: address }),
+    setIsAuthorized: (isAuthorized) => dispatch({ type: SET_IS_AUTHORIZED, payload: isAuthorized }),
   };
 }
 
@@ -57,6 +57,6 @@ export function useToken() {
 
   return {
     token: computed(() => state.token),
-    setToken: (address) => dispatch({ type: SET_TOKEN, payload: address }),
+    setToken: (token) => dispatch({ type: SET_TOKEN, payload: token }),
   };
 }

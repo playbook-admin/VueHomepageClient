@@ -3,6 +3,7 @@ import { createApp } from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
+import GlobalStateProvider from './components/GlobalStateProvider.vue';
 import router from './router'
 import '../public/assets/css/app.css'
 import '../public/assets/css/dragAndDrop.css'
@@ -19,6 +20,7 @@ library.add(faSpinner, faSave, faTrash);
 
 // Registrera FontAwesome-komponenten globalt
 const app = createApp(App);
+app.use(GlobalStateProvider)
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(router); 
 app.mount('#app');
