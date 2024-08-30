@@ -1,20 +1,19 @@
 <template>
-  <div class="container">
+<div class="container container-fluid">
     <div class="row">
-      <div class="col row-height">
-        <div
-          class="col-md-3 d-none d-md-block col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
-          <div class="row">
-            <div class="col-md-12">
+        <div class="row-height col">
+            <div class="col-md-3 hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
+                <div class="row">
+                    <div class="col-md-12">
               <h4>{{ albumCaption || '-' }}</h4>
             </div>
           </div>
         </div>
-        <div class="col-md-9 col-sm-9 col-xs-9 col-md-height">
+        <div class="col-md-height col-md-9 co-sm-9 col-9">
           <div class="row">
             <div class="buttonbar buttonbar-top">
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+              <div class="col-lg-2 col-md-2 col-2"></div>
+              <div class="col-lg-3 col-md-3 col-3">
                 <router-link to="/albums">
                   <img id="FormView1_Image1" src="/assets/images/button-gallery.gif" style="border-width: 0px" alt="" />
                 </router-link>
@@ -81,8 +80,7 @@
                 <router-link :to="getDetailsUrl(last)">
                   <img src="/assets/images/button-last.gif" style="border-width: 0px" alt="" />
                 </router-link>
-              </div>            
-            
+              </div>                        
             </div>
           </div>
         </div>
@@ -142,6 +140,11 @@ export default {
 
     onMounted(() => {
       initializedAsync();
+    });
+
+    watch(() => route.params.photoId, async (newPhotoId) => {
+      photoId.value = parseInt(newPhotoId);
+      await initializedAsync(); // Re-fetch data based on the new photoId
     });
 
     const fetchRandomPhotoDetails = async () => {
