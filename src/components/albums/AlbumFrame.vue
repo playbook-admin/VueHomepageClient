@@ -63,12 +63,19 @@
   <script>
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   import TextAreaInput from '../common/TextAreaInput.vue';
+  import { useApiAddress, useLoading, useIsAuthorized } from '../components/useGlobalState';
   
   export default {
     name: 'AlbumItem',
     components: {
       FontAwesomeIcon,
       TextAreaInput
+    },
+    setup() {
+    // Using hooks
+    const { apiAddress } = useApiAddress();
+    const {isAuthorized } = useIsAuthorized();
+    const { loading, setLoading } = useLoading();
     },
     props: {
       albumID: Number,
@@ -79,11 +86,9 @@
       },
       isPublic: Boolean,
       itemCount: Number,
-      isAuthorized: Boolean
     },
     data() {
       return {
-        apiAddress: this.$globalState.apiAddress,
         isAddNewAlbum: false,
         isUpdateOldAlbum: false,
         isDisabledForAddAndUpdate: false,
@@ -108,18 +113,18 @@
         this.isDisabledForAddAndUpdate = !newCaption.trim();
       },
       async handleUpdate(albumID, newCaption) {
-        this.$globalState.setLoading(true);
-        await this.$emit('update', { albumID, newCaption });
+        setLoading(true);
+        // await this.$emit('update', { albumID, newCaption });
         this.$globalState.setLoading(false);
       },
       async handleDelete(albumID) {
         this.$globalState.setLoading(true);
-        await this.$emit('delete', albumID);
+        // await this.$emit('delete', albumID);
         this.$globalState.setLoading(false);
       },
       async handleAdd(newCaption) {
         this.$globalState.setLoading(true);
-        await this.$emit('add', newCaption);
+        // await this.$emit('add', newCaption);
         this.$globalState.setLoading(false);
       }
     },

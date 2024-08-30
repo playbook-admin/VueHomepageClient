@@ -22,8 +22,7 @@
               <tbody>
                 <tr v-for="row in getAlbumRows()" :key="row[0].AlbumID">
                   <td v-for="(album, index) in row" :key="album.AlbumID">
-                    {{ index }}
-                    <!-- <AlbumFrame
+                    <AlbumFrame
                       :AlbumID="album.AlbumID"
                       :PhotoCount="album.PhotoCount"
                       :Caption="album.Caption"
@@ -33,7 +32,7 @@
                       @delete="handleDelete(album.AlbumID)"
                       @update="(newCaption) => handleUpdate(album.AlbumID, newCaption)"
                       @add="handleAdd"
-                    /> -->
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -49,13 +48,13 @@
 import { ref, computed, onMounted } from 'vue';
 import * as apiClient from '../helpers/ApiHelpers';
 import { useApiAddress, useIsAuthorized, useLoading } from '../components/useGlobalState';
-//import AlbumFrame from '../components/albums/AlbumFrame.vue'; // Ensure this component is correctly imported
+import AlbumFrame from '../components/albums/AlbumFrame.vue'; // Ensure this component is correctly imported
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
   name: 'AlbumsPage',
   components: {
-    //AlbumFrame,
+    AlbumFrame,
     FontAwesomeIcon
   },
   setup() {
