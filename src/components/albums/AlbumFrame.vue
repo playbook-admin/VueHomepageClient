@@ -53,10 +53,12 @@
                 style="border:'4px solid white'; max-height: '100%'; max-width: '100%'" alt="Sample Photo from Album" />
             </div>
             <div v-else>
-              <router-link :to="`/photos/${albumId}/${cap}`">
-                <img :src="`${apiAddress}/Handler/Index/AlbumID=${albumId}/Size=M`" class="photo_198"
-                  style="border: '4px solid white'; max-height: '100%'; max-width: '100%' " alt="Sample Photo" />
-              </router-link>
+              <div v-if="albumId && cap">
+                <router-link :to="`/photos/${albumId}/${cap}`">
+                  <img :src="`${apiAddress}/Handler/Index/AlbumID=${albumId}/Size=M`" class="photo_198"
+                    style="border: '4px solid white'; max-height: '100%'; max-width: '100%' " alt="Sample Photo" />
+                </router-link>
+              </div>
             </div>
           </td>
           <td class="mtp----x">
@@ -81,20 +83,20 @@
         <tr>
           <td class="botx----">
             <img alt="" src="/assets/images/album-l4.gif"
-              style=" max-height: '100%', max-width: '100%', verticalAlign: 'top' " />
+              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />
           </td>
           <td class="bot-x---" style=" textAlign: 'left' ">
             <img alt="" src="/assets/images/album-mbl.gif"
-              style=" max-height: '100%', max-width: '100%', verticalAlign: 'top' " />
+              style="max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />
           </td>
           <td class="bot--x--" />
           <td class="bot---x-" style=" textAlign: 'right' ">
             <img alt="" src="/assets/images/album-mbr.gif"
-              style=" max-height: '100%', max-width: '100%', verticalAlign: 'top' " />&nbsp;&nbsp;
+              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />&nbsp;&nbsp;
           </td>
           <td class="bot----x">
             <img alt="" src="/assets/images/album-r4.gif"
-              style=" max-height: '100%', max-width: '100%', verticalAlign: 'top' " />
+              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />
           </td>
         </tr>
       </tbody>
