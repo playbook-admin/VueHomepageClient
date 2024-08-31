@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-      <!-- <div class="row">
+      <div class="row">
         <div class="row-height col">
           <div class="col-md-3 hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
             <div class="row">
@@ -27,7 +27,7 @@
                   />
                 </div>
               </div>
-              <div class="col-md-12">
+              <!-- <div class="col-md-12">
                 <table class="view" style="border-collapse: collapse;">
                   <tbody>
                     <tr v-for="(row, rowIndex) in photoRows" :key="rowIndex">
@@ -91,11 +91,11 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </template>
   
@@ -132,18 +132,18 @@
       const photos = ref([]);
       const captions = ref([]);
       const showDeleteConfirmationModals = ref([]);
-      const status = ref('idle');
       const photoCaption = ref('');
       const selectedIndex = ref(-1);
 
       // Fetch photos on mount
       const fetchPhotos = async () => {
-        setStatus('loading');
+        setLoading(true);
         const response = await apiClient.getHelper(`${apiAddress.value}/api/photos/album/${albumId}`);
         photos.value = response;
         captions.value = response.map(p => p.caption);
         showDeleteConfirmationModals.value = response.map(() => false);
-        setStatus('idle');
+        console.log(JSON.stringify(photos.value))
+        //setLoading(false);
       };
   
       onMounted(fetchPhotos);
@@ -171,12 +171,12 @@
   
       // Handle photo deletion
       const handleDelete = async (index) => {
-        setStatus('loading');
+        setLoading(true);
         await apiClient.deleteHelper(`${apiAddress.value}/api/photos/delete/${photos.value[index].photoID}`);
         photos.value.splice(index, 1);
         captions.value.splice(index, 1);
         showDeleteConfirmationModals.value.splice(index, 1);
-        setStatus('idle');
+        setLoading(false);
       };
   
       // Toggle delete confirmation modal
@@ -187,11 +187,11 @@
       // Handle photo update
       const handleUpdate = async (index) => {
         selectedIndex.value = index;
-        setStatus('loading');
+        setLoading(true);
         await apiClient.putHelper(`${apiAddress.value}/api/photos/update/${photos.value[index].photoID}`, {
           caption: captions.value[index]
         });
-        setStatus('idle');
+        setLoading(false);
       };
   
       // Compute photo rows
