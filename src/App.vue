@@ -1,13 +1,13 @@
 <template>
   <GlobalStateProvider>
-    <Frame>
+    <FramePage>
       <router-view></router-view>
-    </Frame>
+    </FramePage>
   </GlobalStateProvider>
 </template>
 
 <script setup>
 
 import GlobalStateProvider from "./components/GlobalStateProvider.vue";
-import Frame from "./components/navbar/Frame.vue";
+import FramePage from "./components/navbar/FramePage.vue";
 </script>

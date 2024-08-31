@@ -115,7 +115,7 @@
 import VueSvgIcon from "../common/VueSvgIcon.vue";
 
 export default {
-  name: ["Frame"], // Make sure the name is in PascalCase
+  name: "FramePage", 
   components: {
     VueSvgIcon,
   },
