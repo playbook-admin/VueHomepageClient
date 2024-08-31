@@ -32,11 +32,10 @@
         }"
       />
     </div>
-    <!-- <table cellpadding="0" cellspacing="0" class="album-frame">
+    <table cellpadding="0" cellspacing="0" class="album-frame">
       <tbody>
-        <-- The image table rows here -->
         <tr>
-          <!-- <td class="topx----">
+          <td class="topx----">
             <img alt="" src="/assets/images/album-l1.gif" style="max-height: 100%; max-width: 100%; vertical-align: top;" />
           </td>
           <td class="top-x---">
@@ -48,25 +47,24 @@
           </td>
           <td class="top----x">
             <img alt="" src="/assets/images/album-r1.gif" style="max-height: 100%; max-width: 100%; vertical-align: top;" />
-          </td> -->
+          </td>
         </tr>
-        <!-- Other table rows go here -->
-      <!-- </tbody>
+      </tbody>
     </table>
-    <h4 v-if="isUpdateOldAlbum">
+    <!-- <h4 v-if="isUpdateOldAlbum">
       <div style="color: rgb(152, 0, 0);">
-        <TextAreaInput v-model="caption" placeholder="Enter caption" />
+        <TextAreaInput v-model="cap" placeholder="Enter caption"/>
       </div>
     </h4>
     <h4 v-else>
-      <router-link :to="`/photos/${AlbumID}/${Caption}`">{{ Caption }}</router-link>
+      <router-link :to="`/photos/${albumId}/${cap}`">{{ cap }}</router-link>
     </h4>
     <h4 v-if="isAddNewAlbum">
       <div style="color: rgb(152, 0, 0);">
         <TextAreaInput v-model="caption" placeholder="Enter caption" />
       </div>
     </h4>
-    <div>{{ PhotoCount }} images</div> --> -->
+    <div>{{ PhotoCount }} images</div> -->
   </td>
 </template>
 
@@ -119,7 +117,7 @@ export default {
   setup(props) {
    const { apiAddress } = useApiAddress();
     const { isAuthorized } = useIsAuthorized();
-    const isAddNewAlbum = computed(() => props.albumId === 0);
+    const isAddNewAlbum = computed(() => props.albumId == 0);
     const cap = ref(props.caption);
 
     const isUpdateOldAlbum = computed(() => isAuthorized && !isAddNewAlbum.value);
@@ -133,7 +131,7 @@ export default {
       cap,
       isUpdateOldAlbum,
       isDisabledForAddAndUpdate,
-      isDisabledForDelete
+      isDisabledForDelete,
     };
   }
 };

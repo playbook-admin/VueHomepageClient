@@ -1,28 +1,35 @@
 <template>
-    <div>
-      <textarea 
-        preText="Ditt namn: " 
-        :text="userName" 
-        placeholder="Ange ditt namn"
-        @textChanged="handleTextChanged"
-      />
-      <p>Ditt namn är: {{ userName }}</p>
-    </div>
-  </template>
-  
-  <script>
-  
-  export default {
-    data() {
-      return {
-        userName: ''
-      };
+  <div style="display: inline;">
+    <textarea
+      style="text-align: center;"
+      :value="modelValue"
+      :placeholder="placeholder"
+      @input="updateValue"
+    ></textarea>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'TextAreaInput',
+  props: {
+    modelValue: {
+      type: String,
+      required: true
     },
-    methods: {
-      handleTextChanged(newText) {
-        this.userName = newText;
-      }
+    placeholder: {
+      type: String,
+      default: '' // Default to an empty string if not provided
     }
-  };
-  </script>
-  
+  },
+  methods: {
+    updateValue(event) {
+      this.$emit('update:modelValue', event.target.value);
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* Add any styles specific to this component here */
+</style>
