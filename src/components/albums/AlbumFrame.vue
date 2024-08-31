@@ -119,22 +119,22 @@ export default {
     }
   },
   setup(props) {
-   // const { apiAddress } = useApiAddress();
-    // const { isAuthorized } = useIsAuthorized();
-    // const isAddNewAlbum = computed(() => props.albumId === 0);
-    // const cap = ref(props.caption);
+   const { apiAddress } = useApiAddress();
+    const { isAuthorized } = useIsAuthorized();
+    const isAddNewAlbum = computed(() => props.albumId === 0);
+    const cap = ref(props.caption);
 
-    // const isUpdateOldAlbum = computed(() => isAuthorized && !isAddNewAlbum.value);
-    // const isDisabledForAddAndUpdate = computed(() => cap.value.trim() === '');
-    // const isDisabledForDelete = computed(() => props.photoCount > 0);
+    const isUpdateOldAlbum = computed(() => isAuthorized && !isAddNewAlbum.value);
+    const isDisabledForAddAndUpdate = computed(() => cap.value.trim() === '');
+    const isDisabledForDelete = computed(() => props.photoCount > 0);
 
     return {
-      // apiAddress,
-      // isAddNewAlbum,
-      // cap,
-      // isUpdateOldAlbum,
-      // isDisabledForAddAndUpdate,
-      // isDisabledForDelete
+      apiAddress,
+      isAddNewAlbum,
+      cap,
+      isUpdateOldAlbum,
+      isDisabledForAddAndUpdate,
+      isDisabledForDelete
     };
   }
 };
