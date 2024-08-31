@@ -21,15 +21,15 @@
             <table class="album-frame" style="font-size: 10px; font-family: verdana, arial, helvetica, sans-serif;">
               <tbody>
                 <tr v-for="(row, index) in albumRows" :key="index">
-                  <td v-for="(album, idx) in row" :key="album.AlbumID">
+                  <td v-for="(album, idx) in row" :key="album.albumID">
                     <album-frame
-                      :album-id="album.AlbumID"
-                      :photo-count="album.PhotoCount"
-                      :caption="album.Caption"
-                      :is-public="album.IsPublic"
+                      :album-id="album.albumID"
+                      :photo-count="album.photoCount"
+                      :caption="album.caption"
+                      :is-public="album.isPublic"
                       :item-count="idx"
-                      @delete="handleDelete(album.AlbumID)"
-                      @update="(newCaption) => handleUpdate(album.AlbumID, newCaption)"
+                      @delete="handleDelete(album.albumID)"
+                      @update="(newCaption) => handleUpdate(album.albumID, newCaption)"
                       @add="handleAdd"
                     />
                   </td>
@@ -47,7 +47,7 @@
 import { ref, computed, onMounted } from 'vue';
 import * as apiClient from '../helpers/ApiHelpers';
 import { useApiAddress, useIsAuthorized, useLoading } from '../components/useGlobalState';
-import AlbumFrame from '../components/albums/AlbumFrame.vue'; // Ensure this component is correctly imported
+import AlbumFrame from '../components/albums/AlbumFrame.vue'; 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
@@ -71,14 +71,6 @@ export default {
 
     const isDisabledForAddAndUpdate = ref(false);
     const isDisabledForDelete = ref(false);
-
-    // Function to update state based on loading status
-    const updateStates = () => {
-      isAddNewAlbum.value = false; // Example logic; adjust as needed
-      isUpdateOldAlbum.value = isAuthorized.value && !isAddNewAlbum.value;
-      isDisabledForAddAndUpdate.value = false; // Example logic; adjust as needed
-      isDisabledForDelete.value = false; // Example logic; adjust as needed
-    };
 
     // Function to fetch albums
     const fetchAlbums = async () => {
@@ -135,7 +127,6 @@ export default {
       for (let i = 0; i < albums.value.length; i += 2) {
         rows.push(albums.value.slice(i, i + 2));
       }
-      console.log(JSON.stringify(rows))
       return rows;
     };
 

@@ -32,7 +32,7 @@
             <img alt="" src="/assets/images/album-mtl.gif"
               style="max-height: 100%; max-width: 100%; vertical-align: top;" />
           </td>
-          <td class="top--x--" ></td>
+          <td class="top--x--"></td>
           <td class="top---x-">
             <img alt="" src="/assets/images/album-mtr.gif"
               style="max-height: 100%; max-width: 100%; vertical-align: top;" />
@@ -45,58 +45,61 @@
         <tr>
           <td class="mtpx----">
             <img alt="" src="/assets/images/album-l2.gif"
-              style="max-height:'100%'; max-width:'100%'; vertical-align: 'top'" />
+              style="max-height:100%; max-width:100%; vertical-align: top" />
           </td>
           <td colSpan="3" rowSpan="3">
-            <div v-if="isAddNewAlbum">
-              <img src="/assets/images/default-image-small.png" class="photo_198"
-                style="border:'4px solid white'; max-height: '100%'; max-width: '100%'" alt="Sample Photo from Album" />
-            </div>
-            <div v-else>
-              <div v-if="albumId && cap">
-                <router-link :to="`/photos/${albumId}/${cap}`">
-                  <img :src="`${apiAddress}/Handler/Index/AlbumID=${albumId}/Size=M`" class="photo_198"
-                    style="border: '4px solid white'; max-height: '100%'; max-width: '100%' " alt="Sample Photo" />
-                </router-link>
+            <div class="fade-in-animation">
+              <div v-if="isAddNewAlbum">
+                <img src="/assets/images/default-image-small.png" class="photo_198"
+                  style="border:'4px solid white'; max-height:100%; max-width: 100%"
+                  alt="Sample Photo from Album" />
+              </div>
+              <div v-else>
+                <div v-if="albumId && cap">
+                  <router-link :to="`/photos/${albumId}/${cap}`">
+                    <img :src="`${apiAddress}/Handler/Index/AlbumID=${albumId}/Size=M`" class="photo_198"
+                      style="border: '4px solid white'; max-height: 100%; max-width: 100% " alt="Sample Photo" />
+                  </router-link>
+                </div>
               </div>
             </div>
           </td>
           <td class="mtp----x">
             <img alt="" src="/assets/images/album-r2.gif"
-              style="max-height: '100%'; max-width:'100%'; vertical-align: 'top'" />
+              style="max-height: 100%; max-width:100%; vertical-align: top" />
           </td>
         </tr>
         <tr>
-          <td class="midx----" ></td>
-          <td class="mid----x" ></td>
+          <td class="midx----"></td>
+          <td class="mid----x"></td>
         </tr>
         <tr>
           <td class="mbtx----">
             <img alt="" src="/assets/images/album-l3.gif"
-              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top'" />
+              style=" max-height: 100%; max-width: 100%; vertical-align: top" />
           </td>
           <td class="mbt----x">
             <img alt="" src="/assets/images/album-r3.gif"
-              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top'" />
+              style=" max-height: 100%; max-width: 100%; vertical-align: top" />
           </td>
         </tr>
         <tr>
           <td class="botx----">
             <img alt="" src="/assets/images/album-l4.gif"
-              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />
+              style=" max-height: 100%; max-width: 100%; vertical-align: top " />
           </td>
           <td class="bot-x---" style=" textAlign: 'left' ">
             <img alt="" src="/assets/images/album-mbl.gif"
-              style="max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />
+              style="max-height: 100%; max-width: 100%; vertical-align: top " />
           </td>
-          <td class="bot--x--" ></td>
+          <td class="bot--x--"></td>
           <td class="bot---x-" style=" textAlign: 'right' ">
             <img alt="" src="/assets/images/album-mbr.gif"
-              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />&nbsp;&nbsp;
+              style=" max-height: 100%; max-width: 100%; vertical-align: top " />&nbsp;&nbsp;
           </td>
           <td class="bot----x">
             <img alt="" src="/assets/images/album-r4.gif"
-              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />
+              style=" max-height: 100%; max-width: 100%; vertical-align: top " />
           </td>
         </tr>
       </tbody>
@@ -107,7 +110,7 @@
       </div>
     </h4>
     <h4 v-else>
-      <router-link :to="`/photos/${albumId}/${cap}`">" cap "</router-link>
+      <router-link :to="`/photos/${albumId}/${cap}`">{{ cap }} </router-link>
     </h4>
     <h4 v-if="isAddNewAlbum">
       <div style="color: rgb(152, 0, 0);">
@@ -119,7 +122,7 @@
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import TextAreaInput from '../common/TextAreaInput.vue';
 import { useApiAddress, useIsAuthorized } from '../useGlobalState';
@@ -170,15 +173,11 @@ export default {
     const isAddNewAlbum = computed(() => props.albumId === 0);
     const cap = ref(props.caption);
 
-    const isUpdateOldAlbum = computed(() => isAuthorized && !isAddNewAlbum.value);
+    const isUpdateOldAlbum = computed(() => isAuthorized.value && !isAddNewAlbum.value);
     const isDisabledForAddAndUpdate = computed(() => (cap.value || '').trim() === '');
     const isDisabledForDelete = computed(() => props.photoCount > 0);
 
-    watch(() => props.caption, (newCaption) => {
-      cap.value = newCaption;
-    });
-
-    return {
+     return {
       apiAddress,
       isAddNewAlbum,
       cap,
