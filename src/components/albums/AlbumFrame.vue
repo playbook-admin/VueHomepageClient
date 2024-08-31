@@ -1,9 +1,9 @@
 <template>
   <td class="item">
-    <!-- <div v-if="isUpdateOldAlbum" style="display: flex; justify-content: center; align-items: center; color: black;">
+    <div v-if="isUpdateOldAlbum" style="display: flex; justify-content: center; align-items: center; color: black;">
       <font-awesome-icon
         :icon="['fas', 'save']"
-        @click="!isDisabledForAddAndUpdate && handleUpdate(AlbumID, caption)"
+        @click="!isDisabledForAddAndUpdate && handleUpdate(albumId, cap)"
         :style="{
           fontSize: '2em',
           margin: '0 50px 0 80px',
@@ -11,7 +11,7 @@
           opacity: isDisabledForAddAndUpdate ? 0.5 : 1
         }"
       />
-      <font-awesome-icon
+      <!-- <font-awesome-icon
         :icon="['fas', 'trash']"
         @click="!isDisabledForDelete && handleDelete(AlbumID)"
         :style="{
@@ -20,9 +20,9 @@
           cursor: isDisabledForDelete ? 'not-allowed' : 'pointer',
           opacity: isDisabledForDelete ? 0.5 : 1
         }"
-      />
+      /> -->
     </div>
-    <div v-if="isAddNewAlbum" style="align-items: center; color: black;">
+    <!-- <div v-if="isAddNewAlbum" style="align-items: center; color: black;">
       <font-awesome-icon
         :icon="['fas', 'save']"
         @click="!isDisabledForAddAndUpdate && handleAdd(caption)"
