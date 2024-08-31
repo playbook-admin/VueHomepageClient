@@ -62,12 +62,12 @@
     <h4 v-else>
       <router-link :to="`/photos/${albumId}/${cap}`">{{ cap }}</router-link>
     </h4>
-    <!--<h4 v-if="isAddNewAlbum">
+    <h4 v-if="isAddNewAlbum">
       <div style="color: rgb(152, 0, 0);">
-        <TextAreaInput v-model="caption" placeholder="Enter caption" />
+        <TextAreaInput v-model="cap" placeholder="Enter caption" />
       </div>
     </h4>
-    <div>{{ PhotoCount }} images</div> -->
+    <div>{{ photoCount }} images</div>
   </td>
 </template>
 
