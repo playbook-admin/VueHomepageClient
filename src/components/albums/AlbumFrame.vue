@@ -81,8 +81,8 @@ import { useApiAddress, useIsAuthorized } from '../useGlobalState';
 export default {
   name: "AlbumFrame",
   components: {
-    // FontAwesomeIcon,
-    // TextAreaInput
+    FontAwesomeIcon,
+    TextAreaInput
   },
   props: {
     albumId: {
