@@ -23,16 +23,16 @@
                     icon="spinner"
                     size="2x"
                     spin
-                    :style="{ opacity: status === 'loading' ? 1 : 0 }"
+                    :style="{ opacity: opacity }"
                   />
                 </div>
               </div>
-              <!-- <div class="col-md-12">
+              <div class="col-md-12">
                 <table class="view" style="border-collapse: collapse;">
                   <tbody>
                     <tr v-for="(row, rowIndex) in photoRows" :key="rowIndex">
                       <td v-for="(photo, index) in row" :key="photo.photoID">
-                        <div v-if="userState.isAuthorized">
+                        <div v-if="isAuthorized">
                           <text-area-input
                             :text="captions[index]"
                             placeholder="Enter caption"
@@ -51,7 +51,7 @@
                             </router-link>
                         </div>
                         </photo-frame>
-                        <div v-if="userState.isAuthorized">
+                        <div v-if="isAuthorized">
                           <a @click="toggleDelete(index)" style="margin-right: 10px;">
                             <font-awesome-icon icon="trash" size="1x" />
                           </a>
@@ -73,7 +73,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr v-if="userState.isAuthorized">
+                    <tr v-if="isAuthorized">
                       <td>
                         <text-area-input
                           :text="photoCaption"
@@ -91,7 +91,7 @@
                     </tr>
                   </tbody>
                 </table>
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -125,6 +125,9 @@
       const { isAuthorized } = useIsAuthorized();
       const { loading, setLoading } = useLoading();
    
+      // Reactive states
+      const opacity = computed(() => (loading.value ? 1 : 0));
+
       // Local state
       const route = useRoute();
       const albumId = route.params.albumId;
@@ -143,7 +146,7 @@
         captions.value = response.map(p => p.caption);
         showDeleteConfirmationModals.value = response.map(() => false);
         console.log(JSON.stringify(photos.value))
-        //setLoading(false);
+        setLoading(false);
       };
   
       onMounted(fetchPhotos);
@@ -219,7 +222,8 @@
         toggleDelete,
         photoRows,
         apiAddress,
-        isAuthorized
+        isAuthorized,
+        opacity
       };
     }
   };
