@@ -1,73 +1,118 @@
 <template>
   <td class="item">
     <div v-if="isUpdateOldAlbum" style="display: flex; justify-content: center; align-items: center; color: black;">
-      <font-awesome-icon 
-              icon="save" 
-              spin 
-              :style="{
-                fontSize: '2em', 
-                margin: '0 50px 0 80px', 
-                opacity: isDisabledForAddAndUpdate ? 0.5 : 1}"
-            />
-      <font-awesome-icon
-        icon="trash"
-        @click="!isDisabledForDelete && handleDelete(albumId)"
-        :style="{
-          fontSize: '2em',
-          margin: '0 150px 0 30px',
-          cursor: isDisabledForDelete ? 'not-allowed' : 'pointer',
-          opacity: isDisabledForDelete ? 0.5 : 1
-        }"
-      />
+      <font-awesome-icon icon="save" spin :style="{
+      fontSize: '2em',
+      margin: '0 50px 0 80px',
+      opacity: isDisabledForAddAndUpdate ? 0.5 : 1
+    }" />
+      <font-awesome-icon icon="trash" @click="!isDisabledForDelete && handleDelete(albumId)" :style="{
+      fontSize: '2em',
+      margin: '0 150px 0 30px',
+      cursor: isDisabledForDelete ? 'not-allowed' : 'pointer',
+      opacity: isDisabledForDelete ? 0.5 : 1
+    }" />
     </div>
     <div v-if="isAddNewAlbum" style="align-items: center; color: black;">
-      <font-awesome-icon
-        :icon='save'
-        @click="!isDisabledForAddAndUpdate && handleAdd(caption)"
-        :style="{
-          fontSize: '2em',
-          margin: '0 50px 0 100px',
-          cursor: isDisabledForAddAndUpdate ? 'not-allowed' : 'pointer',
-          opacity: isDisabledForAddAndUpdate ? 0.5 : 1
-        }"
-      />
+      <font-awesome-icon :icon='save' @click="!isDisabledForAddAndUpdate && handleAdd(caption)" :style="{
+      fontSize: '2em',
+      margin: '0 50px 0 100px',
+      cursor: isDisabledForAddAndUpdate ? 'not-allowed' : 'pointer',
+      opacity: isDisabledForAddAndUpdate ? 0.5 : 1
+    }" />
     </div>
     <table cellpadding="0" cellspacing="0" class="album-frame">
       <tbody>
         <tr>
           <td class="topx----">
-            <img alt="" src="/assets/images/album-l1.gif" style="max-height: 100%; max-width: 100%; vertical-align: top;" />
+            <img alt="" src="/assets/images/album-l1.gif"
+              style="max-height: 100%; max-width: 100%; vertical-align: top;" />
           </td>
           <td class="top-x---">
-            <img alt="" src="/assets/images/album-mtl.gif" style="max-height: 100%; max-width: 100%; vertical-align: top;" />
+            <img alt="" src="/assets/images/album-mtl.gif"
+              style="max-height: 100%; max-width: 100%; vertical-align: top;" />
           </td>
           <td class="top--x--" />
           <td class="top---x-">
-            <img alt="" src="/assets/images/album-mtr.gif" style="max-height: 100%; max-width: 100%; vertical-align: top;" />
+            <img alt="" src="/assets/images/album-mtr.gif"
+              style="max-height: 100%; max-width: 100%; vertical-align: top;" />
           </td>
           <td class="top----x">
-            <img alt="" src="/assets/images/album-r1.gif" style="max-height: 100%; max-width: 100%; vertical-align: top;" />
+            <img alt="" src="/assets/images/album-r1.gif"
+              style="max-height: 100%; max-width: 100%; vertical-align: top;" />
+          </td>
+        </tr>
+        <tr>
+          <td class="mtpx----">
+            <img alt="" src="/assets/images/album-l2.gif"
+              style="max-height:'100%'; max-width:'100%'; vertical-align: 'top'" />
+          </td>
+          <td colSpan="3" rowSpan="3">
+            <div v-if="isAddNewAlbum">
+              <img src="/assets/images/default-image-small.png" class="photo_198"
+                style="border:'4px solid white'; max-height: '100%'; max-width: '100%'" alt="Sample Photo from Album" />
+            </div>
+            <div v-else>
+              <router-link :to="`/photos/${albumId}/${cap}`">
+                <img :src="`${apiAddress}/Handler/Index/AlbumID=${albumId}/Size=M`" class="photo_198"
+                  style="border: '4px solid white'; max-height: '100%'; max-width: '100%' " alt="Sample Photo" />
+              </router-link>
+            </div>
+          </td>
+          <td class="mtp----x">
+            <img alt="" src="/assets/images/album-r2.gif"
+              style="max-height: '100%'; max-width:'100%'; vertical-align: 'top'" />
+          </td>
+        </tr>
+        <tr>
+          <td class="midx----" />
+          <td class="mid----x" />
+        </tr>
+        <tr>
+          <td class="mbtx----">
+            <img alt="" src="/assets/images/album-l3.gif"
+              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top'" />
+          </td>
+          <td class="mbt----x">
+            <img alt="" src="/assets/images/album-r3.gif"
+              style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top'" />
+          </td>
+        </tr>
+        <tr>
+          <td class="botx----">
+            <img alt="" src="/assets/images/album-l4.gif"
+              style=" max-height: '100%', max-width: '100%', verticalAlign: 'top' " />
+          </td>
+          <td class="bot-x---" style=" textAlign: 'left' ">
+            <img alt="" src="/assets/images/album-mbl.gif"
+              style=" max-height: '100%', max-width: '100%', verticalAlign: 'top' " />
+          </td>
+          <td class="bot--x--" />
+          <td class="bot---x-" style=" textAlign: 'right' ">
+            <img alt="" src="/assets/images/album-mbr.gif"
+              style=" max-height: '100%', max-width: '100%', verticalAlign: 'top' " />&nbsp;&nbsp;
+          </td>
+          <td class="bot----x">
+            <img alt="" src="/assets/images/album-r4.gif"
+              style=" max-height: '100%', max-width: '100%', verticalAlign: 'top' " />
           </td>
         </tr>
       </tbody>
     </table>
-     <h4 v-if="isUpdateOldAlbum">
+    <h4 v-if="isUpdateOldAlbum">
       <div style="color: rgb(152, 0, 0);">
-         <TextAreaInput 
-         v-model="cap" 
-         placeholder="Enter caption"
-         />
+        <TextAreaInput v-model="cap" placeholder="Enter caption" />
       </div>
     </h4>
     <h4 v-else>
-      <router-link :to="`/photos/${albumId}/${cap}`">{{ cap }}</router-link>
+      <router-link :to="`/photos/${albumId}/${cap}`">" cap "</router-link>
     </h4>
     <h4 v-if="isAddNewAlbum">
       <div style="color: rgb(152, 0, 0);">
         <TextAreaInput v-model="cap" placeholder="Enter caption" />
       </div>
     </h4>
-    <div>{{ photoCount }} images</div>
+    <div>" photoCount " images</div>
   </td>
 </template>
 
