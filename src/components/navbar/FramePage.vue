@@ -29,6 +29,7 @@
                 to="/"
                 class="nav-link no-underline"
                 @click="closeSidebar"
+                 exact-active-class="active"
                 >Home<span
               /></router-link>
             </li>
@@ -37,6 +38,7 @@
                 to="/albums"
                 class="nav-link no-underline"
                 @click="closeSidebar"
+                 exact-active-class="active"
                 >Album<span
               /></router-link>
             </li>
@@ -79,12 +81,18 @@
       <div class="nav-list">
         <ul class="navbar-nav">
           <li ref="menuRefs.homeLi" class="nav-item">
-            <router-link to="/" class="nav-link" @click="closeSidebar"
+            <router-link 
+              to="/" 
+              class="nav-link" 
+              @click="closeSidebar"
               >Home</router-link
             >
           </li>
           <li ref="menuRefs.albumsLi" class="nav-item">
-            <router-link to="/albums" class="nav-link" @click="closeSidebar"
+            <router-link 
+              to="/albums" 
+              class="nav-link" 
+              @click="closeSidebar"
               >Album</router-link
             >
           </li>
@@ -136,3 +144,10 @@ export default {
   },
 };
 </script>
+<style>
+/* Add any necessary styles for active class, e.g., */
+.nav-link.active {
+  font-weight: bold;
+  color: #007bff;
+}
+</style>
