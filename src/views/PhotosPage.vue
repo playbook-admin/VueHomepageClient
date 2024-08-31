@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-      <div class="row">
+      <!-- <div class="row">
         <div class="row-height col">
           <div class="col-md-3 hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
             <div class="row">
@@ -95,7 +95,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </template>
   
@@ -124,7 +124,7 @@
       const { apiAddress } = useApiAddress();
       const { isAuthorized } = useIsAuthorized();
       const { loading, setLoading } = useLoading();
-  
+   
       // Local state
       const route = useRoute();
       const albumId = route.params.albumId;
@@ -135,14 +135,14 @@
       const status = ref('idle');
       const photoCaption = ref('');
       const selectedIndex = ref(-1);
-  
+
       // Fetch photos on mount
       const fetchPhotos = async () => {
         setStatus('loading');
-        const response = await apiClient.getHelper(`${apiAddress.value}/api/photos?albumId=${albumId}`);
-        photos.value = response.data;
-        captions.value = response.data.map(p => p.caption);
-        showDeleteConfirmationModals.value = response.data.map(() => false);
+        const response = await apiClient.getHelper(`${apiAddress.value}/api/photos/album/${albumId}`);
+        photos.value = response;
+        captions.value = response.map(p => p.caption);
+        showDeleteConfirmationModals.value = response.map(() => false);
         setStatus('idle');
       };
   
@@ -172,7 +172,7 @@
       // Handle photo deletion
       const handleDelete = async (index) => {
         setStatus('loading');
-        await apiClient.deleteHelper(`${apiAddress.value}/api/photos/${photos.value[index].photoID}`);
+        await apiClient.deleteHelper(`${apiAddress.value}/api/photos/delete/${photos.value[index].photoID}`);
         photos.value.splice(index, 1);
         captions.value.splice(index, 1);
         showDeleteConfirmationModals.value.splice(index, 1);
@@ -188,7 +188,7 @@
       const handleUpdate = async (index) => {
         selectedIndex.value = index;
         setStatus('loading');
-        await apiClient.putHelper(`${apiAddress.value}/api/photos/${photos.value[index].photoID}`, {
+        await apiClient.putHelper(`${apiAddress.value}/api/photos/update/${photos.value[index].photoID}`, {
           caption: captions.value[index]
         });
         setStatus('idle');
