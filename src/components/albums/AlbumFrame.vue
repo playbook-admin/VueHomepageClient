@@ -1,30 +1,28 @@
 <template>
   <td class="item">
     <div v-if="isUpdateOldAlbum" style="display: flex; justify-content: center; align-items: center; color: black;">
+      <font-awesome-icon 
+              icon="save" 
+              spin 
+              :style="{
+                fontSize: '2em', 
+                margin: '0 50px 0 80px', 
+                opacity: isDisabledForAddAndUpdate ? 0.5 : 1}"
+            />
       <font-awesome-icon
-        :icon="['fas', 'save']"
-        @click="!isDisabledForAddAndUpdate && handleUpdate(albumId, cap)"
-        :style="{
-          fontSize: '2em',
-          margin: '0 50px 0 80px',
-          cursor: isDisabledForAddAndUpdate ? 'not-allowed' : 'pointer',
-          opacity: isDisabledForAddAndUpdate ? 0.5 : 1
-        }"
-      />
-      <!-- <font-awesome-icon
-        :icon="['fas', 'trash']"
-        @click="!isDisabledForDelete && handleDelete(AlbumID)"
+        icon="trash"
+        @click="!isDisabledForDelete && handleDelete(albumId)"
         :style="{
           fontSize: '2em',
           margin: '0 150px 0 30px',
           cursor: isDisabledForDelete ? 'not-allowed' : 'pointer',
           opacity: isDisabledForDelete ? 0.5 : 1
         }"
-      /> -->
+      />
     </div>
-    <!-- <div v-if="isAddNewAlbum" style="align-items: center; color: black;">
+    <div v-if="isAddNewAlbum" style="align-items: center; color: black;">
       <font-awesome-icon
-        :icon="['fas', 'save']"
+        :icon='save'
         @click="!isDisabledForAddAndUpdate && handleAdd(caption)"
         :style="{
           fontSize: '2em',
@@ -34,7 +32,7 @@
         }"
       />
     </div>
-    <table cellpadding="0" cellspacing="0" class="album-frame">
+    <!-- <table cellpadding="0" cellspacing="0" class="album-frame">
       <tbody>
         <-- The image table rows here -->
         <tr>
@@ -125,7 +123,8 @@ export default {
     const cap = ref(props.caption);
 
     const isUpdateOldAlbum = computed(() => isAuthorized && !isAddNewAlbum.value);
-    const isDisabledForAddAndUpdate = computed(() => cap.value.trim() === '');
+    const isDisabledForAddAndUpdate = computed(() => {return (cap.value || '').trim() === '';});
+
     const isDisabledForDelete = computed(() => props.photoCount > 0);
 
     return {

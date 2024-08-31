@@ -22,7 +22,7 @@
               <tbody>
                 <tr v-for="row in getAlbumRows()" :key="row[0].AlbumID">
                   <td v-for="(album, index) in row" :key="album.AlbumID">
-                    <AlbumFrame
+                    <album-frame
                       :album-id="album.AlbumID"
                       :photo-count="album.PhotoCount"
                       :caption="album.Caption"
