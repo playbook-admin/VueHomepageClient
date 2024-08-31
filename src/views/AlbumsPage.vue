@@ -28,6 +28,9 @@
                       :caption="album.Caption"
                       :is-public="album.IsPublic"
                       :item-count="index"
+                      @delete="handleDelete(album.AlbumID)"
+                      @update="(newCaption) => handleUpdate(album.AlbumID, newCaption)"
+                      @add="handleAdd"
                     />
                   </td>
                 </tr>

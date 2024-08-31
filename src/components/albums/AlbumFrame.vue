@@ -105,18 +105,18 @@ export default {
       type: Number,
       required: true
     },
-    // handleDelete: {
-    //   type: Function,
-    //   required: true
-    // },
-    // handleUpdate: {
-    //   type: Function,
-    //   required: true
-    // },
-    // handleAdd: {
-    //   type: Function,
-    //   required: true
-    // }
+    handleDelete: {
+      type: Function,
+      required: false
+    },
+    handleUpdate: {
+      type: Function,
+      required: false
+    },
+    handleAdd: {
+      type: Function,
+      required: false
+    }
   },
   setup(props) {
    // const { apiAddress } = useApiAddress();
