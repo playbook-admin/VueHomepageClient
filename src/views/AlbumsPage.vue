@@ -23,15 +23,11 @@
                 <tr v-for="row in getAlbumRows()" :key="row[0].AlbumID">
                   <td v-for="(album, index) in row" :key="album.AlbumID">
                     <AlbumFrame
-                      :AlbumID="album.AlbumID"
-                      :PhotoCount="album.PhotoCount"
-                      :Caption="album.Caption"
-                      :IsPublic="album.IsPublic"
-                      :ItemCount="index"
-                      :IsAuthorized="isAuthorized"
-                      @delete="handleDelete(album.AlbumID)"
-                      @update="(newCaption) => handleUpdate(album.AlbumID, newCaption)"
-                      @add="handleAdd"
+                      :album-id="album.AlbumID"
+                      :photo-count="album.PhotoCount"
+                      :caption="album.Caption"
+                      :is-public="album.IsPublic"
+                      :item-count="index"
                     />
                   </td>
                 </tr>
@@ -74,12 +70,12 @@ export default {
     const isDisabledForDelete = ref(false);
 
     // Function to update state based on loading status
-    // const updateStates = () => {
-    //   isAddNewAlbum.value = false; // Example logic; adjust as needed
-    //   isUpdateOldAlbum.value = isAuthorized.value && !isAddNewAlbum.value;
-    //   isDisabledForAddAndUpdate.value = false; // Example logic; adjust as needed
-    //   isDisabledForDelete.value = false; // Example logic; adjust as needed
-    // };
+    const updateStates = () => {
+      isAddNewAlbum.value = false; // Example logic; adjust as needed
+      isUpdateOldAlbum.value = isAuthorized.value && !isAddNewAlbum.value;
+      isDisabledForAddAndUpdate.value = false; // Example logic; adjust as needed
+      isDisabledForDelete.value = false; // Example logic; adjust as needed
+    };
 
     // Function to fetch albums
     const fetchAlbums = async () => {
