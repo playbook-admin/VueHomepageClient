@@ -32,7 +32,7 @@
             <img alt="" src="/assets/images/album-mtl.gif"
               style="max-height: 100%; max-width: 100%; vertical-align: top;" />
           </td>
-          <td class="top--x--" />
+          <td class="top--x--" ></td>
           <td class="top---x-">
             <img alt="" src="/assets/images/album-mtr.gif"
               style="max-height: 100%; max-width: 100%; vertical-align: top;" />
@@ -67,8 +67,8 @@
           </td>
         </tr>
         <tr>
-          <td class="midx----" />
-          <td class="mid----x" />
+          <td class="midx----" ></td>
+          <td class="mid----x" ></td>
         </tr>
         <tr>
           <td class="mbtx----">
@@ -89,7 +89,7 @@
             <img alt="" src="/assets/images/album-mbl.gif"
               style="max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />
           </td>
-          <td class="bot--x--" />
+          <td class="bot--x--" ></td>
           <td class="bot---x-" style=" textAlign: 'right' ">
             <img alt="" src="/assets/images/album-mbr.gif"
               style=" max-height: '100%'; max-width: '100%'; vertical-align: 'top' " />&nbsp;&nbsp;
@@ -114,12 +114,12 @@
         <TextAreaInput v-model="cap" placeholder="Enter caption" />
       </div>
     </h4>
-    <div>" photoCount " images</div>
+    <div>{{ photoCount }} images</div>
   </td>
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import TextAreaInput from '../common/TextAreaInput.vue';
 import { useApiAddress, useIsAuthorized } from '../useGlobalState';
@@ -174,6 +174,15 @@ export default {
     const isDisabledForAddAndUpdate = computed(() => {return (cap.value || '').trim() === '';});
 
     const isDisabledForDelete = computed(() => props.photoCount > 0);
+    
+    watch(() => props.albumId, (newAlbumId) => {
+      console.log("watch newAlbumId: ", newAlbumId)
+      albumId.value = newAlbumId;
+    });
+
+    watch(() => props.caption, (newCaption) => {
+      cap.value = newCaption;
+    });
 
     return {
       apiAddress,
