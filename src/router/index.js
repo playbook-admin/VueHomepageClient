@@ -1,4 +1,5 @@
 import AlbumsPage from "@/views/AlbumsPage.vue";
+import PhotosPage from "@/views/PhotosPage.vue";
 import DetailsPage from "@/views/DetailsPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import LoginOutForm from "@/components/user/LoginOutForm.vue";
@@ -20,6 +21,11 @@ const routes = [
     path: "/albums",
     name: "Albums",
     component: AlbumsPage,
+  },
+  {
+    path: "/photos/:albumId/:albumCaption",
+    name: "Photos",
+    component: PhotosPage,
   },
   {
     path: "/details/:photoId/:albumId/:albumCaption",

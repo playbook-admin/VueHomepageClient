@@ -18,7 +18,7 @@
       </tr>
       <tr>
         <td class="midx--"></td>
-        <td><slot /></td>
+        <td><slot ></slot></td>
         <td class="mid--x"></td>
       </tr>
       <tr>
