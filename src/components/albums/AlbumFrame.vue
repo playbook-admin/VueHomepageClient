@@ -165,20 +165,14 @@ export default {
     }
   },
   setup(props) {
-   const { apiAddress } = useApiAddress();
+    const { apiAddress } = useApiAddress();
     const { isAuthorized } = useIsAuthorized();
-    const isAddNewAlbum = computed(() => props.albumId == 0);
+    const isAddNewAlbum = computed(() => props.albumId === 0);
     const cap = ref(props.caption);
 
     const isUpdateOldAlbum = computed(() => isAuthorized && !isAddNewAlbum.value);
-    const isDisabledForAddAndUpdate = computed(() => {return (cap.value || '').trim() === '';});
-
+    const isDisabledForAddAndUpdate = computed(() => (cap.value || '').trim() === '');
     const isDisabledForDelete = computed(() => props.photoCount > 0);
-    
-    watch(() => props.albumId, (newAlbumId) => {
-      console.log("watch newAlbumId: ", newAlbumId)
-      albumId.value = newAlbumId;
-    });
 
     watch(() => props.caption, (newCaption) => {
       cap.value = newCaption;
@@ -195,3 +189,4 @@ export default {
   }
 };
 </script>
+
