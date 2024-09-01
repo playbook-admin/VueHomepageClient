@@ -24,7 +24,6 @@
   </div>
 </template>
 
-
 <script>
 import { ref, watch, computed } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -56,28 +55,22 @@ export default {
     const localShowModal = ref(props.showModal);
     const opacity = computed(() => (localShowModal.value ? 1 : 0));
 
+    // Watch for prop changes to update localShowModal
+    watch(() => props.showModal, (newVal) => {
+      localShowModal.value = newVal;
+    });
+
+    // Watch for localShowModal changes to call hideModal
+    watch(() => localShowModal.value, (newVal) => {
+      if (!newVal) {
+        props.hideModal();
+      }
+    });
+
+    // Handle modal close
     const handleClose = () => {
       localShowModal.value = false;
-      setTimeout(() => {
-        props.hideModal();
-      }, 250); // Match the timeout with the CSS transition time if you use one
     };
-
-    watch(
-      () => props.showModal,
-      (newVal) => {
-        localShowModal.value = newVal;
-      }
-    );
-
-    watch(
-      () => localShowModal.value,
-      (newVal) => {
-        if (!newVal) {
-          props.hideModal();
-        }
-      }
-    );
 
     return {
       localShowModal,
@@ -86,7 +79,6 @@ export default {
     };
   },
 };
-
 </script>
 
 <style scoped>
@@ -119,4 +111,3 @@ export default {
   margin: 0;
 }
 </style>
-

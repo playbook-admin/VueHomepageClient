@@ -56,6 +56,8 @@
                             <font-awesome-icon icon="trash" size="1x" />
                           </a>
                           <delete-confirmation
+                            v-for="(photo, index) in photos"
+                            :key="index"
                             :showModal="showDeleteConfirmationModals[index]"
                             :confirmModal="() => handleDelete(index)"
                             :hideModal="() => toggleDelete(index)"
@@ -68,7 +70,7 @@
                             icon="spinner"
                             size="2x"
                             spin
-                            :style="{ opacity: status === 'loading' && selectedIndex === index ? 1 : 0 }"
+                            :style="{ opacity: opacity }"
                           />
                         </div>
                       </td>
@@ -107,7 +109,7 @@
   import TextAreaInput from '../components/common/TextAreaInput.vue';
   import DeleteConfirmation from '../components/common/DeleteConfirmation.vue';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-  import { useApiAddress, useIsAuthorized, useLoading } from '../providers/useGlobalState';
+  import { useApiAddress, useIsAuthorized, useLoading, useToken } from '../providers/useGlobalState';
   import * as apiClient from '../helpers/ApiHelpers';
   
   export default {
@@ -123,6 +125,7 @@
       // Global state hooks
       const { apiAddress } = useApiAddress();
       const { isAuthorized } = useIsAuthorized();
+      const { token } = useToken();
       const { loading, setLoading } = useLoading();
    
       // Reactive states
@@ -176,7 +179,7 @@
       // Handle photo deletion
       const handleDelete = async (index) => {
         setLoading(true);
-        await apiClient.deleteHelper(`${apiAddress.value}/api/photos/delete/${photos.value[index].photoID}`);
+        await apiClient.deleteHelper(`${apiAddress.value}/api/photos/delete/${photos.value[index].photoID}`, token.value);
         photos.value.splice(index, 1);
         captions.value.splice(index, 1);
         showDeleteConfirmationModals.value.splice(index, 1);
