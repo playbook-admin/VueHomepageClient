@@ -123,7 +123,7 @@
 import VueSvgIcon from "../common/VueSvgIcon.vue";
 
 export default {
-  name: "FramePage", 
+  name: "FrameBar", 
   components: {
     VueSvgIcon,
   },
