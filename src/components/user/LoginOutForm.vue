@@ -127,6 +127,6 @@ const logOutUserAsync = async () => {
 
 <style>
 .custom-height-user {
-  height: calc(100vh - 162px);
+  height: calc(50vh - 162px);
 }
 </style>
