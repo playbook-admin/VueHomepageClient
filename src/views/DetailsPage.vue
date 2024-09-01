@@ -176,7 +176,6 @@ export default {
         const al = await apiClient.getHelper(`${apiAddress.value}/api/details/albumid/${ph}`);
         albumId.value = al;
         const response = await apiClient.getHelper(`${apiAddress.value}/api/details/${al}`);
-        console.log("fetchRandomPhotoDetails", JSON.stringify(response))
         photos.value = response;
       } catch (error) {
         alert('Could not contact server ' + JSON.stringify(error));

@@ -28,9 +28,9 @@
                       :caption="album.caption"
                       :is-public="album.isPublic"
                       :item-count="idx"
-                      @delete="handleDelete(album.albumID)"
-                      @update="(newCaption) => handleUpdate(album.albumID, newCaption)"
-                      @add="handleAdd"
+                      :delete="handleDelete"
+                      :update="handleUpdate"
+                      :add="handleAdd"
                     />
                   </td>
                 </tr>
@@ -46,7 +46,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue';
 import * as apiClient from '../helpers/ApiHelpers';
-import { useApiAddress, useIsAuthorized, useLoading } from '../providers/useGlobalState';
+import { useApiAddress, useIsAuthorized, useLoading, useToken } from '../providers/useGlobalState';
 import AlbumFrame from '../components/albums/AlbumFrame.vue'; 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -60,6 +60,7 @@ export default {
     // Using hooks
     const { apiAddress } = useApiAddress();
     const { isAuthorized } = useIsAuthorized();
+    const { token } = useToken();
     const { loading, setLoading } = useLoading();
 
     // Reactive states
@@ -89,7 +90,7 @@ export default {
     const handleUpdate = async (albumID, newCaption) => {
       try {
         setLoading(true);
-        await apiClient.putHelper(`${apiAddress.value}/api/albums/${albumID}`, { caption: newCaption });
+        await apiClient.putHelper(`${apiAddress.value}/api/albums/update/${albumID}`, { caption: newCaption }, token.value);
         fetchAlbums(); // Refresh albums after update
       } catch (error) {
         console.error('Update failed:', error);
@@ -101,7 +102,7 @@ export default {
     const handleDelete = async (albumID) => {
       try {
         setLoading(true);
-        await apiClient.deleteHelper(`${apiAddress.value}/api/albums/${albumID}`);
+        await apiClient.deleteHelper(`${apiAddress.value}/api/albums/delete/${albumID}`, token.value);
         fetchAlbums(); // Refresh albums after deletion
       } catch (error) {
         console.error('Delete failed:', error);
@@ -113,7 +114,7 @@ export default {
     const handleAdd = async (newCaption) => {
       try {
         setLoading(true);
-        await apiClient.postHelper(`${apiAddress.value}/api/albums`, { caption: newCaption });
+        await apiClient.postHelper(`${apiAddress.value}/api/albums/add`, { caption: newCaption }, token.value);
         fetchAlbums(); // Refresh albums after addition
       } catch (error) {
         console.error('Add failed:', error);

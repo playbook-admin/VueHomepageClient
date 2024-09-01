@@ -34,7 +34,7 @@
 
 <script>
 import { ref } from 'vue';
-import { useIsAuthorized, useLoading } from '../../providers/useGlobalState';
+import { SET_TOKEN, useIsAuthorized, useLoading } from '../../providers/useGlobalState';
 import { useRouter } from 'vue-router';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import * as apiClient from "../../helpers/ApiHelpers";
@@ -48,7 +48,7 @@ export default {
   setup() {
     const { apiAddress } = useApiAddress();
     const { isAuthorized, setIsAuthorized } = useIsAuthorized();
-    const { token } = useToken();
+    const { token, setToken } = useToken();
     const { setLoading } = useLoading();
     const router = useRouter();
     const password = ref('');
@@ -59,29 +59,29 @@ export default {
     };
 
 
-    
-const checkPasswordOnServerAsync = async (password) => {
-  try {
-    const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/login`, { Password: password }, token);
-    console.log("checkPasswordOnServerAsync response: ", response);
-    return { data: response };
-  } catch (error) {
-    console.error('Error in checkPasswordOnServerAsync:', error);
-    throw error;
-  }
-};
+
+    const checkPasswordOnServerAsync = async (password) => {
+      try {
+        const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/login`, { Password: password }, token);
+        console.log("checkPasswordOnServerAsync response: ", response);
+        return { data: response };
+      } catch (error) {
+        console.error('Error in checkPasswordOnServerAsync:', error);
+        throw error;
+      }
+    };
 
 
-const logOutUserAsync = async () => {
-  try {
-    const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/logout`,null,token);
-    console.log("logOutUserAsync response: ", response);
-    return { data: response.text };
-  } catch (error) {
-    console.error('Error in logOutUserAsync:', error);
-    throw error;
-  }
-};
+    const logOutUserAsync = async () => {
+      try {
+        const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/logout`, null, token);
+        console.log("logOutUserAsync response: ", response);
+        return { data: response.text };
+      } catch (error) {
+        console.error('Error in logOutUserAsync:', error);
+        throw error;
+      }
+    };
 
 
 
@@ -93,13 +93,15 @@ const logOutUserAsync = async () => {
           console.log("response: ", response)
           if (response.data === 'userLoggedOut' || response.data === 'userAlreadyLoggedOut') {
             setIsAuthorized(false);
+            setToken('')
             handleClose();
           }
         } else {
           const response = await checkPasswordOnServerAsync(password.value);
           if (response.data.token) {
             setIsAuthorized(true);
-            // Store the token if necessary
+            setToken(response.data.token)
+            console.log("token:", response.data.token)
             handleClose();
           } else {
             console.error('Login failed or invalid response');
@@ -127,6 +129,6 @@ const logOutUserAsync = async () => {
 
 <style>
 .custom-height-user {
-  height: calc(50vh - 162px);
+  margin:20px;
 }
 </style>

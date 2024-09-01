@@ -1,12 +1,16 @@
 <template>
   <td class="item">
     <div v-if="isUpdateOldAlbum" style="display: flex; justify-content: center; align-items: center; color: black;">
-      <font-awesome-icon icon="save" spin :style="{
+      <font-awesome-icon icon="save" 
+      @click="!isDisabledForDelete && handleUpdate(albumId, cap)" 
+      :style="{
       fontSize: '2em',
       margin: '0 50px 0 80px',
       opacity: isDisabledForAddAndUpdate ? 0.5 : 1
     }" />
-      <font-awesome-icon icon="trash" @click="!isDisabledForDelete && handleDelete(albumId)" :style="{
+      <font-awesome-icon icon="trash" 
+      @click="!isDisabledForDelete && handleDelete(albumId)" 
+      :style="{
       fontSize: '2em',
       margin: '0 150px 0 30px',
       cursor: isDisabledForDelete ? 'not-allowed' : 'pointer',
@@ -14,7 +18,8 @@
     }" />
     </div>
     <div v-if="isAddNewAlbum" style="align-items: center; color: black;">
-      <font-awesome-icon :icon='save' @click="!isDisabledForAddAndUpdate && handleAdd(caption)" :style="{
+      <font-awesome-icon :icon='save' 
+      @click="!isDisabledForAddAndUpdate && handleAdd(cap)" :style="{
       fontSize: '2em',
       margin: '0 50px 0 100px',
       cursor: isDisabledForAddAndUpdate ? 'not-allowed' : 'pointer',
@@ -154,15 +159,15 @@ export default {
       type: Number,
       required: true
     },
-    handleDelete: {
+    delete: {
       type: Function,
       required: false
     },
-    handleUpdate: {
+    update: {
       type: Function,
       required: false
     },
-    handleAdd: {
+    add: {
       type: Function,
       required: false
     }
@@ -177,15 +182,22 @@ export default {
     const isDisabledForAddAndUpdate = computed(() => (cap.value || '').trim() === '');
     const isDisabledForDelete = computed(() => props.photoCount > 0);
 
-     return {
+    // Return only the necessary items, including props directly
+    return {
       apiAddress,
       isAddNewAlbum,
       cap,
       isUpdateOldAlbum,
       isDisabledForAddAndUpdate,
       isDisabledForDelete,
+      handleDelete: props.delete,
+      handleUpdate: props.update,
+      handleAdd: props.add
     };
   }
 };
 </script>
+
+
+
 
