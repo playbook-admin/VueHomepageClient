@@ -67,6 +67,9 @@ export default {
     const opacity = computed(() => (loading.value ? 1 : 0));
 
     const albums = ref([]);
+    const setAlbums = (newAlbums) => {
+      albums.value = newAlbums;
+    }
     const isAddNewAlbum = ref(false);
     const isUpdateOldAlbum = ref(isAuthorized.value && !isAddNewAlbum.value);
 
@@ -74,11 +77,15 @@ export default {
     const isDisabledForDelete = ref(false);
 
     // Function to fetch albums
-    const fetchAlbums = async () => {
+    const getAlbumsWithPhotoCount = async () => {
       try {
         setLoading(true);
         const response = await apiClient.getHelper(`${apiAddress.value}/api/albums`);
-        albums.value = response; // Adjust according to the API response
+        setAlbums(response);
+        if (isAuthorized && noEmptyAlbumsExists(response)) {
+          const album = { albumID: 0, photoCount: 0, caption: '', isPublic: true };
+          setAlbums([...albums.value, album]);
+        }
       } catch (error) {
         console.error('Failed to fetch albums:', error);
       } finally {
@@ -86,12 +93,15 @@ export default {
       }
     };
 
-    // Event handlers
+    const noEmptyAlbumsExists = (albums) => {
+      return albums.every(album => album.photoCount > 0);
+    };
+
     const handleUpdate = async (albumID, newCaption) => {
       try {
         setLoading(true);
-        await apiClient.putHelper(`${apiAddress.value}/api/albums/update/${albumID}`, { caption: newCaption }, token.value);
-        fetchAlbums(); // Refresh albums after update
+        await apiClient.putHelper(`${apiAddress.value}/api/albums/update/${albumID}`, newCaption, token.value);
+        getAlbumsWithPhotoCount(); // Refresh albums after update
       } catch (error) {
         console.error('Update failed:', error);
       } finally {
@@ -103,7 +113,7 @@ export default {
       try {
         setLoading(true);
         await apiClient.deleteHelper(`${apiAddress.value}/api/albums/delete/${albumID}`, token.value);
-        fetchAlbums(); // Refresh albums after deletion
+        getAlbumsWithPhotoCount(); // Refresh albums after deletion
       } catch (error) {
         console.error('Delete failed:', error);
       } finally {
@@ -114,8 +124,8 @@ export default {
     const handleAdd = async (newCaption) => {
       try {
         setLoading(true);
-        await apiClient.postHelper(`${apiAddress.value}/api/albums/add`, { caption: newCaption }, token.value);
-        fetchAlbums(); // Refresh albums after addition
+        await apiClient.postHelper(`${apiAddress.value}/api/albums/add`, newCaption, token.value);
+        getAlbumsWithPhotoCount(); // Refresh albums after addition
       } catch (error) {
         console.error('Add failed:', error);
       } finally {
@@ -136,7 +146,7 @@ export default {
 
     // Lifecycle hooks
     onMounted(() => {
-      fetchAlbums();
+      getAlbumsWithPhotoCount();
     });
 
     return {

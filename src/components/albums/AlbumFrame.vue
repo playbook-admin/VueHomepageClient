@@ -18,8 +18,9 @@
     }" />
     </div>
     <div v-if="isAddNewAlbum" style="align-items: center; color: black;">
-      <font-awesome-icon :icon='save' 
-      @click="!isDisabledForAddAndUpdate && handleAdd(cap)" :style="{
+      <font-awesome-icon icon="save"  
+      @click="!isDisabledForAddAndUpdate && handleAdd(cap)" 
+      :style="{
       fontSize: '2em',
       margin: '0 50px 0 100px',
       cursor: isDisabledForAddAndUpdate ? 'not-allowed' : 'pointer',
@@ -177,7 +178,7 @@ export default {
     const { isAuthorized } = useIsAuthorized();
     const isAddNewAlbum = computed(() => props.albumId === 0);
     const cap = ref(props.caption);
-
+    console.log("setup isAddNewAlbum: ", isAddNewAlbum.value)
     const isUpdateOldAlbum = computed(() => isAuthorized.value && !isAddNewAlbum.value);
     const isDisabledForAddAndUpdate = computed(() => (cap.value || '').trim() === '');
     const isDisabledForDelete = computed(() => props.photoCount > 0);
