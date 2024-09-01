@@ -70,11 +70,6 @@ export default {
     const setAlbums = (newAlbums) => {
       albums.value = newAlbums;
     }
-    const isAddNewAlbum = ref(false);
-    const isUpdateOldAlbum = ref(isAuthorized.value && !isAddNewAlbum.value);
-
-    const isDisabledForAddAndUpdate = ref(false);
-    const isDisabledForDelete = ref(false);
 
     // Function to fetch albums
     const getAlbumsWithPhotoCount = async () => {
@@ -82,7 +77,7 @@ export default {
         setLoading(true);
         const response = await apiClient.getHelper(`${apiAddress.value}/api/albums`);
         setAlbums(response);
-        if (isAuthorized && noEmptyAlbumsExists(response)) {
+        if (isAuthorized.value && noEmptyAlbumsExists(response)) {
           const album = { albumID: 0, photoCount: 0, caption: '', isPublic: true };
           setAlbums([...albums.value, album]);
         }
@@ -151,10 +146,6 @@ export default {
 
     return {
       opacity,
-      isAddNewAlbum,
-      isUpdateOldAlbum,
-      isDisabledForAddAndUpdate,
-      isDisabledForDelete,
       handleUpdate,
       handleDelete,
       handleAdd,
