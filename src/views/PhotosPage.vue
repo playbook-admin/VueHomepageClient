@@ -84,7 +84,7 @@
                           <file-upload-function
                             :albumId="albumId"
                             :caption="photoCaption"
-                            @photoAdded="handlePhotoAdded"
+                            :onPhotoAdded="handlePhotoAdded"
                           />
                         </photo-frame>
                       </td>
@@ -130,7 +130,7 @@
 
       // Local state
       const route = useRoute();
-      const albumId = route.params.albumId;
+      const albumId = ref(parseInt(route.params.albumId));
       const albumCaption = route.params.albumCaption;
       const photos = ref([]);
       const captions = ref([]);
@@ -141,7 +141,7 @@
       // Fetch photos on mount
       const fetchPhotos = async () => {
         setLoading(true);
-        const response = await apiClient.getHelper(`${apiAddress.value}/api/photos/album/${albumId}`);
+        const response = await apiClient.getHelper(`${apiAddress.value}/api/photos/album/${albumId.value}`);
         photos.value = response;
         captions.value = response.map(p => p.caption);
         showDeleteConfirmationModals.value = response.map(() => false);
@@ -212,7 +212,6 @@
         photos,
         captions,
         showDeleteConfirmationModals,
-        status,
         photoCaption,
         selectedIndex,
         handleNewCaptionChanged,

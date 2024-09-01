@@ -13,10 +13,10 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../public/assets/css/animation.css'
 
 // Importera de specifika ikoner du vill använda
-import { faSpinner, faSave, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faSave, faTrash, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 // Lägg till ikonerna i biblioteket
-library.add(faSpinner, faSave, faTrash);
+library.add(faSpinner, faSave, faTrash,faTimes);
 
 // Registrera FontAwesome-komponenten globalt
 const app = createApp(App);

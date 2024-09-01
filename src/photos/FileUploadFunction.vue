@@ -5,10 +5,10 @@
         <div
           v-else
           :class="['drag-drop-zone', { 'inside-drag-area': dropState.inDropZone }]"
-          @drop="handleDrop"
-          @dragover="handleDragOver"
-          @dragenter="handleDragEnter"
-          @dragleave="handleDragLeave"
+          :drop="handleDrop"
+          :dragover="handleDragOver"
+          :dragenter="handleDragEnter"
+          :dragleave="handleDragLeave"
         >
           <strong class="text-center">Drag the file here...</strong>
           <br />
@@ -24,25 +24,29 @@
       <div v-if="image.preview">
         <br />
         <button @click="handleCancel">
-          <font-awesome-icon :icon="['fas', 'times']" size="2x" />
+          <font-awesome-icon 
+          icon='times' 
+          size="2x" />
         </button>
-        <button v-if="caption" @click="handleUpload">
-          <font-awesome-icon :icon="['fas', 'save']" size="2x" />
+        <button v-if="cap" @click="handleUpload">
+          <font-awesome-icon 
+          icon='save'
+          size="2x" />
         </button>
         <font-awesome-icon
-          :icon="['fas', 'spinner']"
+          icon='spinner'
           size="2x"
           spin
-          :style="{ opacity: isLoading.value ? 1 : 0 }"
+          :style="{ opacity: opacity }"
         />
       </div>
     </div>
   </template>
   
   <script>
-  import { ref, reactive } from 'vue';
+  import { ref, reactive, computed } from 'vue';
   import * as apiClient from '../helpers/ApiHelpers';
-  import { useApiAddress, useIsAuthorized, useLoading } from '../providers/useGlobalState';
+  import { useApiAddress, useToken, useLoading } from '../providers/useGlobalState';
   
   export default {
     name: 'FileUploadFunction',
@@ -63,9 +67,11 @@
     setup(props) {
       const image = ref({ preview: '', raw: null });
       const { apiAddress } = useApiAddress();
-      const { isAuthorized } = useIsAuthorized();
-      const { isLoading, setLoading } = useLoading();
-  
+      const { token } = useToken();
+      const { loading, setLoading } = useLoading();
+      const opacity = computed(() => (loading.value ? 1 : 0));
+      const cap = ref(props.caption);
+
       const dropState = reactive({
         dropDepth: 0,
         inDropZone: false,
@@ -92,13 +98,13 @@
         const formData = new FormData();
         formData.append('Image', image.value.raw);
         formData.append('AlbumId', props.albumId);
-        formData.append('Caption', props.caption);
+        formData.append('Caption', cap.value);
   
         try {
           const response = await apiClient.postImageHelper(
             `${apiAddress}/api/photos/add/`,
             formData,
-            isAuthorized.value
+            token.value
           );
           props.onPhotoAdded(response);
           image.value = { preview: '', raw: null };
@@ -153,7 +159,7 @@
       return {
         image,
         dropState,
-        isLoading,
+        loading,
         handleChange,
         handleUpload,
         handleCancel,
@@ -161,6 +167,8 @@
         handleDragLeave,
         handleDragOver,
         handleDrop,
+        opacity,
+        cap
       };
     },
   };
