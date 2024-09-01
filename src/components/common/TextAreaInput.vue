@@ -1,5 +1,5 @@
 <template>
-  <div style="display: inline;">
+  <div style="display: inline;"><strong>{{preText}}&nbsp;</strong>
     <textarea
       style="text-align: center;"
       :value="modelValue"
@@ -19,7 +19,11 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '' // Default to an empty string if not provided
+      default: '' 
+    },
+    preText: {
+      type: String,
+      default: '' 
     }
   },
   methods: {

@@ -1,31 +1,27 @@
 <template>
-  <div class="d-flex align-items-center justify-content-center custom-height-user text-xl">
-    <div class="rounded border border-dark">
-      <div class="border-bottom p-4">
-        <p class="fw-semibold mb-2">{{ isAuthorized ? 'Log Out' : 'Log In' }}</p>
-        <input 
-          v-if="!isAuthorized" 
-          type="password" 
-          v-model="password" 
-          placeholder="Password" 
-          class="border border-dark p-2 rounded"
-        />
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title h4">
+          <form style="display:inline">
+            <label style="display:inline">
+              <strong>{{ captionText }}</strong>
+              <input v-if="!isAuthorized" 
+                type="password" 
+                v-model="password" 
+                placeholder="Password"
+                style="text-align: center;" />
+            </label>
+          </form>
+        </div>
       </div>
-      <div class="d-flex gap-2 text-white text-base p-4">
-        <button @click="handleClose" class="p-2 btn btn-secondary rounded">Cancel</button>
-        <button 
-          @click="handleLogInOut" 
-          class="p-2 btn btn-primary rounded"
-        >
+      <div class="modal-body">
+        <button @click="handleClose" class="btn btn-secondary">Cancel</button>
+        <button @click="handleLogInOut" class="btn btn-primary">
           {{ isAuthorized ? 'Log Out' : 'Log In' }}
         </button>
         <button style="border: none; background: none; color: black;">
-          <FontAwesomeIcon 
-            icon="fa-spinner" 
-            size="2x" 
-            spin 
-            :style="{ opacity: loading ? '1' : '0' }"
-          />
+          <FontAwesomeIcon icon="fa-spinner" size="2x" spin :style="{ opacity: loading ? '1' : '0' }" />
         </button>
       </div>
     </div>
@@ -34,11 +30,10 @@
 
 <script>
 import { ref } from 'vue';
-import { SET_TOKEN, useIsAuthorized, useLoading } from '../../providers/useGlobalState';
+import { useIsAuthorized, useLoading, useApiAddress, useToken } from '../../providers/useGlobalState';
 import { useRouter } from 'vue-router';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import * as apiClient from "../../helpers/ApiHelpers";
-import { useApiAddress, useToken } from '../../providers/useGlobalState';
+import * as apiClient from '../../helpers/ApiHelpers';
 
 export default {
   name: 'LoginOutForm',
@@ -48,40 +43,36 @@ export default {
   setup() {
     const { apiAddress } = useApiAddress();
     const { isAuthorized, setIsAuthorized } = useIsAuthorized();
-    const { token, setToken } = useToken();
-    const { setLoading } = useLoading();
+    const { loading, setLoading } = useLoading();
+    const {setToken} = useToken();
     const router = useRouter();
     const password = ref('');
-    const loading = ref(false);
+    const captionText = ref('Log in');
 
     const handleClose = () => {
       router.push('/albums');
     };
 
-
-
     const checkPasswordOnServerAsync = async (password) => {
       try {
-        const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/login`, { Password: password }, token);
+        const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/login`, { Password: password });
         return { data: response };
       } catch (error) {
         console.error('Error in checkPasswordOnServerAsync:', error);
+        captionText.value='Wrong password, try again...';
         throw error;
       }
     };
 
-
     const logOutUserAsync = async () => {
       try {
-        const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/logout`, null, token);
+        const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/logout`);
         return { data: response.text };
       } catch (error) {
         console.error('Error in logOutUserAsync:', error);
         throw error;
       }
     };
-
-
 
     const handleLogInOut = async () => {
       setLoading(true);
@@ -90,23 +81,22 @@ export default {
           const response = await logOutUserAsync();
           if (response.data === 'userLoggedOut' || response.data === 'userAlreadyLoggedOut') {
             setIsAuthorized(false);
-            setToken('')
+            setToken('');
             handleClose();
           }
         } else {
           const response = await checkPasswordOnServerAsync(password.value);
           if (response.data.token) {
             setIsAuthorized(true);
-            setToken(response.data.token)
+            setToken(response.data.token);
             handleClose();
           } else {
             console.error('Login failed or invalid response');
-            // Handle the error (e.g., show a message to the user)
+            captionText.value='Wrong password, try again...';
           }
         }
       } catch (error) {
         console.error('Error:', error);
-        // Handle the error (e.g., show a message to the user)
       } finally {
         setLoading(false);
       }
@@ -118,6 +108,7 @@ export default {
       loading,
       handleClose,
       handleLogInOut,
+      captionText
     };
   },
 };
