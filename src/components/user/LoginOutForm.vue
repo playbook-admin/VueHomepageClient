@@ -63,7 +63,6 @@ export default {
     const checkPasswordOnServerAsync = async (password) => {
       try {
         const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/login`, { Password: password }, token);
-        console.log("checkPasswordOnServerAsync response: ", response);
         return { data: response };
       } catch (error) {
         console.error('Error in checkPasswordOnServerAsync:', error);
@@ -75,7 +74,6 @@ export default {
     const logOutUserAsync = async () => {
       try {
         const response = await apiClient.postHelper(`${apiAddress.value}/api/authorization/logout`, null, token);
-        console.log("logOutUserAsync response: ", response);
         return { data: response.text };
       } catch (error) {
         console.error('Error in logOutUserAsync:', error);
@@ -90,7 +88,6 @@ export default {
       try {
         if (isAuthorized.value) {
           const response = await logOutUserAsync();
-          console.log("response: ", response)
           if (response.data === 'userLoggedOut' || response.data === 'userAlreadyLoggedOut') {
             setIsAuthorized(false);
             setToken('')
@@ -101,7 +98,6 @@ export default {
           if (response.data.token) {
             setIsAuthorized(true);
             setToken(response.data.token)
-            console.log("token:", response.data.token)
             handleClose();
           } else {
             console.error('Login failed or invalid response');
