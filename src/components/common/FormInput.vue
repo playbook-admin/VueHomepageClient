@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSubmit" style="display: inline;">
+  <form style="display: inline;">
     <label style="display: inline;">
       <strong>{{ preText }}&nbsp;</strong>
       <input
@@ -37,11 +37,6 @@ export default {
     return {
       inputValue: this.text
     };
-  },
-  methods: {
-    handleSubmit() {
-      this.$emit('enter');
-    }
   }
 };
 </script>
