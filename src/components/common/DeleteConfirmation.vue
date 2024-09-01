@@ -11,14 +11,6 @@
       <div class="modal-footer d-flex gap-2 p-4">
         <button @click="handleClose" class="btn btn-secondary">Cancel</button>
         <button @click="confirmModal" class="btn btn-danger">Delete</button>
-        <button style="border: none; background: none; color: black;">
-          <font-awesome-icon
-            icon="spinner"
-            size="2x"
-            spin
-            :style="{ opacity: opacity }"
-          />
-        </button>
       </div>
     </div>
   </div>

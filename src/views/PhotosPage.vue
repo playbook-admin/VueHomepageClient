@@ -153,12 +153,7 @@
       };
   
       onMounted(fetchPhotos);
-  
-      // Update status
-      const setStatus = (newStatus) => {
-        status.value = newStatus;
-      };
-  
+   
       // Handle caption change
       const handleCaptionChange = (value, index) => {
         captions.value[index] = value;
