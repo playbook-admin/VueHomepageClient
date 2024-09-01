@@ -34,7 +34,7 @@
                       <td v-for="(photo, index) in row" :key="photo.photoID">
                         <div v-if="isAuthorized">
                           <text-area-input
-                            :text="captions[index]"
+                            v-model="captions[index]"
                             placeholder="Enter caption"
                             @textChanged="(value) => handleCaptionChange(value, index)"
                           />
@@ -76,9 +76,9 @@
                     <tr v-if="isAuthorized">
                       <td>
                         <text-area-input
-                          :text="photoCaption"
+                          v-model="photoCaption"
                           placeholder="Enter caption"
-                          @textChanged="handleNewCaptionChanged"
+                          @textChanged="(value) => handlePhotoCaptionChange(value)"
                         />
                         <photo-frame :defaultImage="true">
                           <file-upload-function
@@ -168,7 +168,8 @@
       };
   
       // Handle new caption input
-      const handleNewCaptionChanged = (value) => {
+      const handlePhotoCaptionChanged = (value) => {
+        console.log("PhotosPage handlePhotoCaptionChanged: ",value)
         photoCaption.value = value;
       };
   
@@ -214,7 +215,7 @@
         showDeleteConfirmationModals,
         photoCaption,
         selectedIndex,
-        handleNewCaptionChanged,
+        handlePhotoCaptionChanged,
         handlePhotoAdded,
         handleUpdate,
         handleDelete,
