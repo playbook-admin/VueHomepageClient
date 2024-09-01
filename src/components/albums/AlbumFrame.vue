@@ -2,10 +2,11 @@
   <td class="item">
     <div v-if="isUpdateOldAlbum" style="display: flex; justify-content: center; align-items: center; color: black;">
       <font-awesome-icon icon="save" 
-      @click="!isDisabledForDelete && handleUpdate(albumId, cap)" 
+      @click="!isDisabledForAddAndUpdate && handleUpdate(albumId, cap)" 
       :style="{
       fontSize: '2em',
       margin: '0 50px 0 80px',
+      cursor: isDisabledForAddAndUpdate ? 'not-allowed' : 'pointer',
       opacity: isDisabledForAddAndUpdate ? 0.5 : 1
     }" />
       <font-awesome-icon icon="trash" 
