@@ -178,7 +178,7 @@ export default {
     const { isAuthorized } = useIsAuthorized();
     const isAddNewAlbum = computed(() => props.albumId === 0);
     const cap = ref(props.caption);
-    console.log("setup isAddNewAlbum: ", isAddNewAlbum.value)
+
     const isUpdateOldAlbum = computed(() => isAuthorized.value && !isAddNewAlbum.value);
     const isDisabledForAddAndUpdate = computed(() => (cap.value || '').trim() === '');
     const isDisabledForDelete = computed(() => props.photoCount > 0);

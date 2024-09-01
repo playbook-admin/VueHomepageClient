@@ -185,7 +185,6 @@ export default {
     const fetchPhotosByAlbumId = async (albumId) => {
       try {
         const response = await apiClient.getHelper(`${apiAddress.value}/api/details/${albumId}`);
-        console.log("fetchPhotosByAlbumId :",{albumId}, JSON.stringify(response))
         photos.value = response;
       } catch (error) {
         alert('Could not contact server ' + JSON.stringify(error));

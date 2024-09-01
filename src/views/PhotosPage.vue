@@ -145,7 +145,7 @@
         photos.value = response;
         captions.value = response.map(p => p.caption);
         showDeleteConfirmationModals.value = response.map(() => false);
-        console.log(JSON.stringify(photos.value))
+ 
         setLoading(false);
       };
   
