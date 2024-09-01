@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
-import GlobalStateProvider from './components/GlobalStateProvider.vue';
+import GlobalStateProvider from './providers/GlobalStateProvider.vue';
 import router from './router'
 import '../public/assets/css/app.css'
 import '../public/assets/css/dragAndDrop.css'

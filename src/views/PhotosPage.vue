@@ -107,7 +107,7 @@
   import TextAreaInput from '../components/common/TextAreaInput.vue';
   import DeleteConfirmation from '../components/common/DeleteConfirmation.vue';
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-  import { useApiAddress, useIsAuthorized, useLoading } from '../components/useGlobalState';
+  import { useApiAddress, useIsAuthorized, useLoading } from '../providers/useGlobalState';
   import * as apiClient from '../helpers/ApiHelpers';
   
   export default {

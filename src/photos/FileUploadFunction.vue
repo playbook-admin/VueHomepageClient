@@ -42,7 +42,7 @@
   <script>
   import { ref, reactive } from 'vue';
   import * as apiClient from '../helpers/ApiHelpers';
-  import { useApiAddress, useIsAuthorized, useLoading } from '../components/useGlobalState';
+  import { useApiAddress, useIsAuthorized, useLoading } from '../providers/useGlobalState';
   
   export default {
     name: 'FileUploadFunction',

@@ -169,7 +169,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useApiAddress } from './../components/useGlobalState';
+import { useApiAddress } from './../providers/useGlobalState';
 import PhotoFrame from "../photos/PhotoFrame.vue";
 
 // Access API address from global state

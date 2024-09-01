@@ -46,7 +46,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue';
 import * as apiClient from '../helpers/ApiHelpers';
-import { useApiAddress, useIsAuthorized, useLoading } from '../components/useGlobalState';
+import { useApiAddress, useIsAuthorized, useLoading } from '../providers/useGlobalState';
 import AlbumFrame from '../components/albums/AlbumFrame.vue'; 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 

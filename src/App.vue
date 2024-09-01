@@ -8,6 +8,6 @@
 
 <script setup>
 
-import GlobalStateProvider from "./components/GlobalStateProvider.vue";
+import GlobalStateProvider from "./providers/GlobalStateProvider.vue";
 import FramePage from "./components/navbar/FramePage.vue";
 </script>

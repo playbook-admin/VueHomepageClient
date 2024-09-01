@@ -107,7 +107,7 @@ import PhotoFrame from '../photos/PhotoFrame.vue';
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import * as apiClient from '../helpers/ApiHelpers';
-import { useApiAddress } from '../components/useGlobalState';
+import { useApiAddress } from '../providers/useGlobalState';
 
 export default {
   name: "DetailsPage",

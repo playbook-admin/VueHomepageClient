@@ -125,7 +125,7 @@
 import { ref, computed } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import TextAreaInput from '../common/TextAreaInput.vue';
-import { useApiAddress, useIsAuthorized } from '../useGlobalState';
+import { useApiAddress, useIsAuthorized } from '../../providers/useGlobalState';
 
 export default {
   name: "AlbumFrame",
