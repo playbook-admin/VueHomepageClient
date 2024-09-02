@@ -73,10 +73,6 @@ export default {
 </script>
 
 <style scoped>
-.image-container {
-  position: relative;
-  display: inline-block; /* Adjust this based on your layout */
-}
 
 .modal-overlay {
   position: absolute;
