@@ -1,108 +1,90 @@
 <template>
-    <div class="container">
-      <div class="row">
-        <div class="row-height col">
-          <div class="col-md-3 hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
-            <div class="row">
-              <div class="col-md-12">
-                <h4>{{ albumCaption }}</h4>
-              </div>
+  <div class="container">
+    <div class="row">
+      <div class="row-height col">
+        <div
+          class="col-md-3 hidden-md hidden-sm hidden-xs col-md-height col-md-top custom-vertical-left-border custom-vertical-right-border grey-background">
+          <div class="row">
+            <div class="col-md-12">
+              <h4>{{ albumCaption }}</h4>
             </div>
           </div>
-          <div class="col-md-9 col-md-height">
-            <div class="row">
-              <div class="buttonbar buttonbar-top">
-                <router-link to="/albums">
-                  <img alt="" src="/assets/images/button-gallery.gif" />
-                </router-link>
+        </div>
+        <div class="col-md-9 col-md-height">
+          <div class="row">
+            <div class="buttonbar buttonbar-top">
+              <router-link to="/albums">
+                <img alt="" src="/assets/images/button-gallery.gif" />
+              </router-link>
+            </div>
+            <div class="row justify-content-md-center">
+              <div class="col-xs-6"></div>
+              <div class="col-md-auto">
+                <font-awesome-icon icon="spinner" size="2x" spin :style="{ opacity: opacity }" />
               </div>
-              <div class="row justify-content-md-center">
-                <div class="col-xs-6"></div>
-                <div class="col-md-auto">
-                  <font-awesome-icon
-                    icon="spinner"
-                    size="2x"
-                    spin
-                    :style="{ opacity: opacity }"
-                  />
-                </div>
-              </div>
-              <div class="col-md-12">
-                <table class="view" style="border-collapse: collapse;">
-                  <tbody>
-                    <tr v-for="(row, rowIndex) in photoRows" :key="rowIndex">
-                      <td v-for="(photo, index) in row" :key="photo.photoID">
+            </div>
+            <div class="col-md-12">
+              <table class="view" style="border-collapse: collapse;">
+                <tbody>
+                  <tr v-for="(row, rowIndex) in photoRows" :key="rowIndex">
+                    <td v-for="(photo, index) in row" :key="photo.photoID">
+                      <!-- Special case when photoID is 0, only when authorized -->
+                      <div v-if="photo.photoID === 0">
+                        <text-area-input v-model="photoCaption" placeholder="Enter caption"
+                          @textChanged="(value) => handlePhotoCaptionChange(value)" />
+                        <photo-frame :defaultImage="true">
+                          <file-upload-function 
+                            :albumId="albumId" 
+                            :caption="photoCaption"
+                            :onPhotoAdded="handlePhotoAdded" 
+                            />
+                        </photo-frame>
+                      </div>
+
+                      <!-- Default case for regular photos -->
+                      <div v-else>
                         <div v-if="isAuthorized">
-                          <text-area-input
-                            v-model="captions[index]"
-                            placeholder="Enter caption"
-                            @textChanged="(value) => handleCaptionChange(value, index)"
-                          />
+                          <text-area-input v-model="captions[index]" placeholder="Enter caption"
+                            @textChanged="(value) => handleCaptionChange(value, index)" />
                         </div>
                         <div v-else>{{ captions[index] }}</div>
                         <photo-frame>
                           <div class="fade-in-animation">
                             <router-link :to="`/details/${photo.photoID}/${albumId}/${albumCaption}`">
-                              <img
-                                :src="`${apiAddress}/Handler/Index/PhotoID=${photo.photoID}/Size=M`"
-                                alt=""
-                                style="border: 4px solid white"
-                              />
+                              <img :src="`${apiAddress}/Handler/Index/PhotoID=${photo.photoID}/Size=M`" alt=""
+                                style="border: 4px solid white" />
                             </router-link>
-                        </div>
+                          </div>
                         </photo-frame>
                         <div v-if="isAuthorized">
                           <a @click="toggleDelete(index)" style="margin-right: 10px;">
                             <font-awesome-icon icon="trash" size="1x" />
                           </a>
-                          <delete-confirmation
-                            v-for="(photo, index) in photos"
-                            :key="index"
-                            :showModal="showDeleteConfirmationModals[index]"
+                          {{  console.log("showDeleteConfirmationModals in loop: ", JSON.stringify(showDeleteConfirmationModals)) }}
+                          <delete-confirmation :key="index"
+                            :showModal="showDeleteConfirmationModals[index]" 
                             :confirmModal="() => handleDelete(index)"
                             :hideModal="() => toggleDelete(index)"
-                            :message="`Do you want to remove ${photo.caption}?`"
-                          />
+                            :message="`Do you want to remove ${photo.caption}?`" />
                           <a @click="handleUpdate(index)" style="margin-left: 10px;">
                             <font-awesome-icon icon="save" size="1x" />
                           </a>
-                          <font-awesome-icon
-                            icon="spinner"
-                            size="2x"
-                            spin
-                            :style="{ opacity: opacity }"
-                          />
                         </div>
-                      </td>
-                    </tr>
-                    <tr v-if="isAuthorized">
-                      <td>
-                        <text-area-input
-                          v-model="photoCaption"
-                          placeholder="Enter caption"
-                          @textChanged="(value) => handlePhotoCaptionChange(value)"
-                        />
-                        <photo-frame :defaultImage="true">
-                          <file-upload-function
-                            :albumId="albumId"
-                            :caption="photoCaption"
-                            :onPhotoAdded="handlePhotoAdded"
-                          />
-                        </photo-frame>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
-  import { ref, computed, onMounted } from 'vue';
+  import { ref, computed, onMounted, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import PhotoFrame from '../photos/PhotoFrame.vue';
   import FileUploadFunction from '../photos/FileUploadFunction.vue';
@@ -144,7 +126,10 @@
       // Fetch photos on mount
       const fetchPhotos = async () => {
         setLoading(true);
-        const response = await apiClient.getHelper(`${apiAddress.value}/api/photos/album/${albumId.value}`);
+        let response = await apiClient.getHelper(`${apiAddress.value}/api/photos/album/${albumId.value}`);
+        if (isAuthorized.value) {
+          response = addDefaultImage(response)
+        }
         photos.value = response;
         captions.value = response.map(p => p.caption);
         showDeleteConfirmationModals.value = response.map(() => false);
@@ -167,7 +152,6 @@
   
       // Handle new caption input
       const handlePhotoCaptionChanged = (value) => {
-        console.log("PhotosPage handlePhotoCaptionChanged: ",value)
         photoCaption.value = value;
       };
   
@@ -202,8 +186,15 @@
         for (let i = 0; i < photos.value.length; i += 5) {
           rows.push(photos.value.slice(i, i + 5));
         }
+
         return rows;
       });
+
+      const addDefaultImage = (responsePhotos) => {
+          const emptyPhoto = { "photoID": 0, "albumID": `${albumId.value}`, "caption": "" };
+          responsePhotos = [...responsePhotos, emptyPhoto];
+          return responsePhotos;
+      };
   
       return {
         albumId,
