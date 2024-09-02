@@ -33,11 +33,8 @@
                         <text-area-input v-model="photoCaption" placeholder="Enter caption"
                           @textChanged="(value) => handlePhotoCaptionChange(value)" />
                         <photo-frame :defaultImage="true">
-                          <file-upload-function 
-                            :albumId="albumId" 
-                            :caption="photoCaption"
-                            :onPhotoAdded="handlePhotoAdded" 
-                            />
+                          <file-upload-function :albumId="albumId" :caption="photoCaption"
+                            :onPhotoAdded="handlePhotoAdded" />
                         </photo-frame>
                       </div>
 
@@ -48,6 +45,7 @@
                             @textChanged="(value) => handleCaptionChange(value, index)" />
                         </div>
                         <div v-else>{{ captions[index] }}</div>
+
                         <photo-frame>
                           <div class="fade-in-animation">
                             <router-link :to="`/details/${photo.photoID}/${albumId}/${albumCaption}`">
@@ -56,16 +54,18 @@
                             </router-link>
                           </div>
                         </photo-frame>
+
                         <div v-if="isAuthorized">
                           <a @click="toggleDelete(index)" style="margin-right: 10px;">
                             <font-awesome-icon icon="trash" size="1x" />
                           </a>
-                          {{  console.log("showDeleteConfirmationModals in loop: ", JSON.stringify(showDeleteConfirmationModals)) }}
-                          <delete-confirmation :key="index"
-                            :showModal="showDeleteConfirmationModals[index]" 
-                            :confirmModal="() => handleDelete(index)"
+
+                          <!-- Delete Confirmation Modal -->
+                          <delete-confirmation v-if="showDeleteConfirmationModals[index]" :key="index"
+                            :showModal="showDeleteConfirmationModals[index]" :confirmModal="() => handleDelete(index)"
                             :hideModal="() => toggleDelete(index)"
                             :message="`Do you want to remove ${photo.caption}?`" />
+
                           <a @click="handleUpdate(index)" style="margin-left: 10px;">
                             <font-awesome-icon icon="save" size="1x" />
                           </a>
