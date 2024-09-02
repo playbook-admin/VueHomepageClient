@@ -1,10 +1,10 @@
 <template>
-  <div v-if="localShowModal">
+  <div v-if="localShowModal" class="modal-container">
     <!-- Modal Overlay -->
     <div class="modal-overlay"></div>
     
     <!-- Modal Dialog -->
-    <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title h4">Confirm deletion</h5>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { ref, watch, computed } from 'vue';
+import { ref, watch } from 'vue';
 
 export default {
   name: 'DeleteConfirmation',
@@ -73,25 +73,28 @@ export default {
 </script>
 
 <style scoped>
+.image-container {
+  position: relative;
+  display: inline-block; /* Adjust this based on your layout */
+}
+
 .modal-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  z-index: 999; /* Ensure it covers other content */
+  z-index: 100; /* Ensure it covers other content */
 }
 
 .modal-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  position: absolute;
+  top: 40%; 
+  left: inherit;
   transform: translate(-50%, -50%);
-  z-index: 1000; /* Above the overlay */
+  z-index: 101; /* Ensure it is above the overlay */
   width: auto;
   max-width: 90%;
 }
-
-
 </style>
+
