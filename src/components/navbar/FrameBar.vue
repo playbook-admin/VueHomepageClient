@@ -119,31 +119,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import VueSvgIcon from "../common/VueSvgIcon.vue";
 
-export default {
-  name: "FrameBar", 
-  components: {
-    VueSvgIcon,
-  },
-  data() {
-    return {
-      logo: require("@/images/info.png"),
-      hamburger: require("@/images/Hamburger.png"),
-      sidebarOpen: false,
-    };
-  },
-  methods: {
-    toggleSidebar() {
-      this.sidebarOpen = !this.sidebarOpen;
-    },
-    closeSidebar() {
-      this.sidebarOpen = false;
-    },
-  },
-};
+// Define reactive state
+const logo = require("@/images/info.png");
+const hamburger = require("@/images/Hamburger.png");
+const sidebarOpen = ref(false);
+
+// Define methods
+const toggleSidebar = ()=> {
+  sidebarOpen.value = !sidebarOpen.value;
+}
+
+const closeSidebar = () => {
+  sidebarOpen.value = false;
+}
 </script>
+
 <style>
 /* Add any necessary styles for active class, e.g., */
 .nav-link.active {
